@@ -24,6 +24,10 @@ switch ($_POST['kode']) {
 		$fileName = $_FILES["file"]["name"]; 
 		$fileTmp = $_FILES["file"]["tmp_name"]; 
 		$upload_nmbr = $_POST['upload_nmbr'];
+		$ceding_name = $_POST['ceding_name'];
+		$treaty_name = $_POST['treaty_name'];
+
+	
 			
 		if($ext == "xlsx"){				
 			$temp = "temp/";
@@ -240,7 +244,7 @@ function check_max_upload_number($data=""){
 	echo json_encode($upload_number);
 }
 
-function check_data_claim($data=""){
+function check_data_claim($data) {
 	
 	$database = new Koneksi;
 	$sqlQuery = "select max(upload_number) as upload_number from tbl_claim_data ";										
@@ -271,6 +275,21 @@ function check_data_claim($data=""){
 			$submit_date_claim = $value['submit_date'];
 
 			// echo "insured_name= "; print_r( $insured_name ); echo "<br>";
+
+
+
+	// echo "<pre>";
+		// echo "_POST"; print_r($_POST);
+		// die;
+
+		$database = new Koneksi;
+		$sq = "select * from tbl_setting_uw tsu where ceding_name ='PT. BCA FINANCE' and treaty_name ='016/BCA/2009/CT ADDENDUM NO.01' ";										
+		$dq = $database->db_fetch_obj($sq);
+		
+		echo "<pre>";
+		echo "_POST"; print_r($dq);
+		die;
+
 			
 			$sqlQuery_name_of_insured = "select name_of_insured from tbl_insured where  name_of_insured = '$insured_name_claim' and certificate_no = '$certificate_no_claim' limit 1 ";										
 			$dataQuery_name_of_insured = $database->db_fetch_obj($sqlQuery_name_of_insured);
@@ -503,7 +522,7 @@ function ceding_name($data){
 
 	
 	$database = new Koneksi;
-	$sqlQuery = "select ti.ceding as ceding_name from tbl_insured ti group by ti.ceding ";										
+	$sqlQuery = "select tt.ceding_name, tt.no_contract from tbl_treaty tt where tt.type_of_contract ='Treaty' ";										
 	$dataQuery = $database->db_fetch_array($sqlQuery);
 
 	// echo "<pre>";
@@ -525,21 +544,25 @@ function ceding_name($data){
 function treaty_name($data){
 
 	$database = new Koneksi;
-	$sqlQuery = "select ti.no_treaty from tbl_insured ti where ti.ceding ='$data' ";										
+	$sqlQuery = "select tt.no_contract from tbl_treaty tt where tt.ceding_name='$data' ";	
 	$dataQuery = $database->db_fetch_array($sqlQuery);
 
 	// echo "<pre>";
-	// echo "kkkkkk";
+	// echo "dataQuery ";
 	// print_r($dataQuery);
 	// die;
 
 	$no_treaty = array();
-    if ($dataQuery['success'] && $dataQuery['status']==200) {
-            
+    if ($dataQuery['success'] && $dataQuery['status']==200) {         
         foreach ($dataQuery['data'] as $key=>$value) {
             $no_treaty[$key] = $value;
         }
     }
+
+	// echo "no_treaty ";
+	// print_r($no_treaty);
+	// die;
+
 	echo  json_encode($no_treaty);
 
 }

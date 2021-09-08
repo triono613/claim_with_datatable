@@ -413,7 +413,7 @@ ini_set('display_errors', 'On');
 							}); 
 						}); 
 
-                        $('#ceding_name').on('click',function() {
+                        $('#ceding_name').on('change',function() {
 						$("#wait").show();
 						// event.preventDefault();       
 							$.ajax({
@@ -426,8 +426,13 @@ ini_set('display_errors', 'On');
 									},
 								success: function(treaty) {       
 									$("#wait").hide();
-                                    console.log('treaty= ', treaty); 
-                                    treaty.forEach( (val, key) =>  $("#treaty_name").append('<option value="' + val.no_treaty + '">' + val.no_treaty + '</option>')   ); 
+                                    $('#treaty_name')
+									.find('option')
+									.remove()
+									.end()
+									.append('<option value="">-</option>')
+									.val('');
+                                    treaty.forEach( (val, key) =>  $("#treaty_name").append('<option value="' + val.no_contract + '">' + val.no_contract + '</option>')   ); 
 
 									} 
 							}); 

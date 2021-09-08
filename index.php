@@ -52,7 +52,7 @@
                 </a>
               </li>
 			        <li class="nav-item">
-                <a href="index?page=import_data" class="nav-link">
+                <a href="index?page=import_data_new" class="nav-link">
                   <p>Upload Data Claim</p>
                 </a>
               </li>
@@ -84,7 +84,7 @@
 						case 'home':
 							echo "Data Insured";
 							break;
-						case 'import_data':
+						case 'import_data_new':
 							echo "Import Data";
 							break;
             case 'setting_uw':
@@ -122,8 +122,8 @@
 						case 'home':
 							include "page/data_insured.php";
 							break;
-						case 'import_data':
-							include "page/import_data.php";
+						case 'import_data_new':
+							include "page/import_data_new.php";
 							break;
             case 'setting_uw':
                 include "page/setting_uw.php";
