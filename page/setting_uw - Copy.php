@@ -182,24 +182,14 @@ ini_set('display_errors', 'On');
                 <div class="col-sm-3 " style="background-color: ;">
                     <p>
                         <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="true" id="check_180_days_less" name="check_180_days_less" >
-                        <label class="form-check-label" for="check_180_days_less">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            (PaymentDate - SubmitDate) < 180 days
+                        <input class="form-check-input" type="checkbox" value="true" id="check_180_days" name="check_180_days" >
+                        <label class="form-check-label" for="check_180_days">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        (Payment date-Submit date) > 180 = Reject
                         </label>
                         </div>
                     </p>
                 </div>
-                <div class="col-sm-3 " style="background-color: ;">
-                    <p>
-                        <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="true" id="check_180_days_more" name="check_180_days_more" >
-                        <label class="form-check-label" for="check_180_days_more">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        (SentToReinsrDate - eventdate) > 180 = Reject
-                        </label>
-                        </div>
-                    </p>
-                </div>
-                
+
                 
                 <div class="col-sm-3 " style="background-color: ;">
                     <p>
@@ -324,14 +314,14 @@ ini_set('display_errors', 'On');
                                 <th>inception_date</th> 
                                 <th>sum_insured</th> 
                                 <th>stnc</th> 
-                                <th>days > 180 </th> 
-                                <th>days < 180 </th> 
+                                <th>paymentdate_submitdate_days_18</th> 
                                 <th>pl_cedant_rate</th> 
                                 <th>pl_tre</th> 
                                 <th>claim_paid_by_cedant_100</th> 
                                 <th>claim_paid_tre_share_calc_by_cedant</th> 
                                 <th>claim_paid_tre_share_calc_by_tre</th>
                                 <th>check_claim_tre_share</th> 
+                                <th>over_all_claim_stts</th> 
                                 <th>remark</th> 
                                 <th>create_date</th> 
 								</tr>
@@ -409,14 +399,14 @@ ini_set('display_errors', 'On');
                     { "data":"inception_date" ,"title": "inception date.","width":"50%"},
                     { "data":"sum_insured" ,"title": "sum insured.","width":"50%"},
                     { "data":"stnc" ,"title": "STNC","width":"50%"},
-                    { "data":"days_180_more" ,"title": " > 180","width":"50%"},
-                    { "data":"days_180_less" ,"title": " < 180","width":"50%"},
+                    { "data":"paymentdate_submitdate_days_18" ,"title": "paymentdate_submitdate_days_18","width":"50%"},
                     { "data":"pl_cedant_rate" ,"title": "pl_cedant_rate","width":"50%"},
                     { "data":"pl_tre" ,"title": "pl_tre","width":"50%"},
                     { "data":"claim_paid_by_cedant_100" ,"title": "claim_paid_by_cedant_100","width":"50%"},
                     { "data":"claim_paid_tre_share_calc_by_cedant" ,"title": "claim_paid_tre_share_calc_by_cedant","width":"50%"},
                     { "data":"claim_paid_tre_share_calc_by_tre" ,"title": "claim_paid_tre_share_calc_by_tre","width":"50%"},
                     { "data":"check_claim_tre_share" ,"title": "check_claim_tre_share","width":"50%"},
+                    { "data":"over_all_claim_stts" ,"title": "over_all_claim_stts","width":"50%"},
                     { "data":"remark" ,"title": "remark","width":"50%"},
                     { "data":"create_date" ,"title": "create_date","width":"50%"},		
                 ],
@@ -451,8 +441,7 @@ ini_set('display_errors', 'On');
                                 formdata.append("check_inception_date", $('#check_inception_date:checkbox:checked').length);
                                 formdata.append("check_sum_ins", $('#check_sum_ins:checkbox:checked').length);
                                 formdata.append("check_stnc", $('#check_stnc:checkbox:checked').length);
-                                formdata.append("check_180_days_more", $('#check_180_days_more:checkbox:checked').length);
-                                formdata.append("check_180_days_less", $('#check_180_days_less:checkbox:checked').length);
+                                formdata.append("check_180_days", $('#check_180_days:checkbox:checked').length);
                                 formdata.append("pdate_vs_sdate_stts", $('#pdate_vs_sdate_stts:checkbox:checked').length);
                                 formdata.append("pl_cedant_rate", $('#pl_cedant_rate:checkbox:checked').length);
                                 formdata.append("pl_tre", $('#pl_tre:checkbox:checked').length);

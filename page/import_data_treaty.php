@@ -187,8 +187,11 @@ ini_set('display_errors', 'On');
 									<th>tre_share_amt</th>
 									<th>sent_to_reinsr_date</th>
 									<th>sla</th>
+									<th>tre_si</th>
+									<th>cedant_rate</th>
+									<th>birth_date</th>
+									<th>stnc</th>
 									<th>Tgl upload</th>
-								
 								</tr>
 							</thead>
 							<tbody></tbody>	
@@ -294,7 +297,7 @@ ini_set('display_errors', 'On');
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
-                    "url": "view_tbl_claim_data.php"
+                    "url": "view_tbl_claim_bm.php"
                 },
 				// rowId: 'id',
 				select: true,
@@ -325,6 +328,10 @@ ini_set('display_errors', 'On');
 							{ "data": "tre_share_amt",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
 							{ "data": "sent_to_reinsr_date" },  
 							{ "data": "sla" },  
+							{ "data": "tre_si",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							{ "data": "cedant_rate",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							{ "data": "birth_date" },  
+							{ "data": "stnc" }, 
 							{ "data": "upload_date" },  
 				
 		            // { "render": function ( data, type, row ) { // Tampilkan kolom aksi
@@ -372,7 +379,7 @@ ini_set('display_errors', 'On');
 							{ "data":"pl_inception_date", "title": "PL Inception Date",},
 							{ "data":"result_efective_inception", "title": "Effective vs Inception",},
 							{ "data":"claim_submit", "title": "Claim Submit 100%",render: $.fn.dataTable.render.number( ',', '.', 2 )},
-							{ "data":"pl_sum_insd", "title": "PL Sum Insd 100%",},
+							{ "data":"pl_sum_insd", "title": "PL Sum Insd 100%",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
 							{ "data":"result_claim_submit_pl_sum_insd", "title": "Claim Submit vs PL Sum Insured ",},
 							{ "data":"claim_event", "title": "Claim Event ",},
 							{ "data":"stnc", "title": "STNC ",},
@@ -380,10 +387,10 @@ ini_set('display_errors', 'On');
 							{ "data":"payment_date_submit_date_days", "title": "Payment Date vs Submit Date Days",}, 
 							{ "data":"result_payment_date_submit_date_status", "title": "Payment Date vs Submit Date Days Status",}, 
 							{ "data":"pl_cedant_ret", "title": "PL Cedant Ret",}, 
-							{ "data":"pl_tre", "title": "PL TRE",}, 
-							{ "data":"claim_paid_by_cedant", "title": "Claim Paid by Cedant 100%",}, 
-							{ "data":"claim_paid_tre_share_calc_by_cedant", "title": "Claim Paid TRE Share (calc by Cedant)",}, 
-							{ "data":"claim_paid_tre_share_calc_by_tre", "title": " Claim Paid TRE Share (calc by TRE)",}, 
+							{ "data":"pl_tre", "title": "PL TRE",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							{ "data":"claim_paid_by_cedant", "title": "Claim Paid by Cedant 100%",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							{ "data":"claim_paid_tre_share_calc_by_cedant", "title": "Claim Paid TRE Share (calc by Cedant)",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							{ "data":"claim_paid_tre_share_calc_by_tre", "title": " Claim Paid TRE Share (calc by TRE)",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
 							{ "data":"check_claim_tre_share_cedant_vs_tre", "title": " Check Claim TRE Share (Cedant Version vs TRE Version)",}, 
 							{ "data":"result_check_claim_tre_share_cedant_vs_tre", "title": "Check Claim TRE Share (Cedant ver vs TRE ver)",}, 
 							{ "data":"result_overall_clm_status", "title": "Overall Claim Status",}, 
@@ -444,26 +451,16 @@ ini_set('display_errors', 'On');
 									processData: false,
 								success: function(output) {    
 									$("#wait").hide();   
-									var output = $.parseJSON(output);
-									// var output = json_encode(output);
-									// console.log('json.message ', json.message );
 									console.log(' output= ', output );
-									console.log(' output.message x= ', output.message );
+									// var json = $.parseJSON(output);
+									// var json = json_encode(output);
+									// console.log('json.message ', json.message );
 									
-									if( output.success ) {
-										Swal.fire( 
+									Swal.fire(
 										output.message,
 										'Data Telah tersimpan',
 										'success'
-										)	
-									} else {
-										Swal.fire(
-										output.success,
-										output.message,
-										'error'
-										)	
-									}
-																										
+										)																			
 										$('#table-data-insured').DataTable().ajax.reload(); 
 								
 										UPLOAD_NUMBER();
@@ -543,7 +540,7 @@ ini_set('display_errors', 'On');
 							if (result.isConfirmed) {
 
 								var formdata = new FormData();
-								formdata.append("kode", "CHECK_DATA_CLAIM");
+								formdata.append("kode", "CHECK_DATA_CLAIM_TREATY");
 								formdata.append("ceding_name", $('#ceding_name').val() );
 								formdata.append("treaty_name", $('#treaty_name').val() );
 								$.ajax({

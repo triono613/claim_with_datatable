@@ -5,7 +5,7 @@ class Koneksi extends Status {
 
 	public function conn()
 	{
-		$conn = new PDO('pgsql:host=localhost;port=5433;dbname=DbWebLife;user=postgres;password=123456');
+		$conn = new PDO('pgsql:host=localhost;port=5432;dbname=DbWebLife;user=postgres;password=123456');
         return $conn;    
 
 	}

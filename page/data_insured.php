@@ -16,11 +16,14 @@ ini_set('display_errors', 'On');
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
   <link rel="stylesheet" type="text/css" href="datatables/lib/css/dataTables.bootstrap.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.1/css/jquery.dataTables.min.css"/>
 </head>
 
                 <div class="position-relative ">
                   	<div class="table-responsive">
-				
+						  <!--
+					  		<button id="button">Row count</button>
+						-->
 				<table class="table table-bordered" id="table-data-insured">
 				<thead>
 					<tr>
@@ -143,7 +146,8 @@ ini_set('display_errors', 'On');
 		            "url": "view.php", // URL file untuk proses select datanya
 		            "type": "POST"
 		        },
-				
+				'select':true,
+				'rowId': 'no_treaty',
 		        "deferRender": true,
 		        // "aLengthMenu": [[10],[10]], 
 		        "columns": [
@@ -223,6 +227,21 @@ ini_set('display_errors', 'On');
 		            // },
 		        ],
 		    });
+
+
+			$('#table-data-insured tbody').on( 'click', 'tr', function () {
+					$(this).toggleClass('selected');
+				} );
+			
+				$('#button').click( function () {
+					// alert( tabel.rows('.selected').data().length +' row(s) selected' );
+					var x = tabel.rows().id;
+					var c =  tabel.rows('.selected').data().length;
+
+					alert(x);
+
+				} );
+
 		});
 		</script>
 

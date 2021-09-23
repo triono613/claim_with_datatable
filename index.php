@@ -53,7 +53,12 @@
               </li>
 			        <li class="nav-item">
                 <a href="index?page=import_data_new" class="nav-link">
-                  <p>Upload Data Claim</p>
+                  <p>Upload Data </p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="index?page=import_data_treaty" class="nav-link">
+                  <p>Upload Data Bali Mandara</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -87,6 +92,9 @@
 						case 'import_data_new':
 							echo "Import Data";
 							break;
+            case 'import_data_treaty':
+                echo "Import Data";
+                break;
             case 'setting_uw':
                 echo "";
                 break;
@@ -125,6 +133,9 @@
 						case 'import_data_new':
 							include "page/import_data_new.php";
 							break;
+            case 'import_data_treaty':
+                include "page/import_data_treaty.php"; 
+                break;
             case 'setting_uw':
                 include "page/setting_uw.php";
                 break;
