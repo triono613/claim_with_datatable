@@ -1,6 +1,17 @@
 <?php 
 require_once('koneksi.php');
 ini_set('display_errors', 'On');
+
+// session_start();
+// echo "SESSION= ";print_r($_SESSION);
+if(!strlen(trim($_SESSION['username']))) {
+  // session_destroy();
+  unset($_SESSION["username"]);
+  header("Location:index");
+  exit();
+  }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,6 +28,7 @@ ini_set('display_errors', 'On');
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
   <link rel="stylesheet" type="text/css" href="datatables/lib/css/dataTables.bootstrap.min.css"/>
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.1/css/jquery.dataTables.min.css"/>
+  
 </head>
 
                 <div class="position-relative ">
@@ -28,7 +40,7 @@ ini_set('display_errors', 'On');
 				<thead>
 					<tr>
 					
-					<!--	<th>no.</th> -->
+						<th>no.</th>
 						<th>source</th>
 						<th>ceding</th>
 						<th>no_treaty</th>
@@ -115,11 +127,11 @@ ini_set('display_errors', 'On');
 
   <!-- Main Footer -->
   <footer class="main-footer">
-    <strong><a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.1.0
-    </div>
+    <!-- <strong><a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+    All rights reserved. -->
+    <!-- <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 1.0
+    </div> -->
   </footer>
 </div>
 
@@ -127,9 +139,7 @@ ini_set('display_errors', 'On');
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="dist/js/adminlte.js"></script>
 <script src="plugins/chart.js/Chart.min.js"></script>
-
 <script src="dist/js/pages/dashboard3.js"></script>
-
 <script type="text/javascript" src="js/jquery.min.js"></script>
 		<script>
 		var tabel = null;
@@ -152,7 +162,7 @@ ini_set('display_errors', 'On');
 		        // "aLengthMenu": [[10],[10]], 
 		        "columns": [
 						
-							// { "data": "no" },
+							{ "data": "no" },
 					{ "data": "source" }, 
 		            { "data": "ceding" },  
 					{ "data": "no_treaty" },  

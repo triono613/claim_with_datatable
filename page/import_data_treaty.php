@@ -1,6 +1,17 @@
 <?php
 require_once('koneksi.php');
 ini_set('display_errors', 'On');
+
+// session_start();
+// echo "SESSION= ";print_r($_SESSION);
+if(!strlen(trim($_SESSION['username']))) {
+  // session_destroy();
+  unset($_SESSION["username"]);
+  header("Location:index");
+  exit();
+  }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -9,7 +20,7 @@ ini_set('display_errors', 'On');
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>data_claim</title>
+		<title>data claim</title>
 
 		<!-- Load File bootstrap.min.css yang ada difolder css -->
 		<link href="css/bootstrap.min.css" rel="stylesheet">
@@ -19,7 +30,8 @@ ini_set('display_errors', 'On');
 		<link href='https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
 		<link href='https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css' rel='stylesheet' type='text/css'>
 
-		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.1/css/jquery.dataTables.min.css"/>
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"/>
+		
 		
 
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -75,6 +87,10 @@ ini_set('display_errors', 'On');
 			left: 0;
 			opacity: 0.5;
 			}
+
+			.row_selected td {
+    			background-color: black !important; /* Add !important to make sure override datables base styles */
+ 			}
 		</style>
 
 		<!-- Load File jquery.min.js yang ada difolder js -->
@@ -117,13 +133,13 @@ ini_set('display_errors', 'On');
     </div>
 
 
-<div class="col-xs-3">
+<div class="col-xs-12">
   <div class="form-group">
 <!--	<input type="file" name="sortdata" id="sortdata" class="btn btn-success btn-sm pull-left"></input> -->
 	<input id="sortdata" name="sortdata" type="file" class="file" data-show-preview="false">
   </div>
 </div>
-<div class="col-xs-0">
+<div class="col-xs-12">
   <div class="form-group">
     <button id="upload" type="button" name="upload" class="btn btn-primary buttons-csv buttons-html5 btn-sm pull-left">
 		<!-- <span class="glyphicon glyphicon-eye-open"></span> -->
@@ -132,12 +148,7 @@ ini_set('display_errors', 'On');
   </div>
 </div>
 <div class="col-xs-0">
-  <div class="form-group">
-    <button type="button" name="check_data" id="check_data" class="btn btn-primary buttons-csv buttons-html5 btn-sm">
-	<!--	<span class="glyphicon glyphicon-eye-open"></span>  -->
-	Cek Data
-	</button>
-  </div>
+  
 </div>
 <div class="form-group">
     <input id="upload_number" type="text" name="upload_number" style="display: none;" class="" />
@@ -151,15 +162,39 @@ ini_set('display_errors', 'On');
 </form>
 </fieldset>
 
+	<div>
+		<fieldset class="scheduler-border">
+		<legend class="scheduler-border">Data Upload </legend>		
+			    <div class="position-relative ">
+                  	<div class="table-responsive">
+							<table class="table table-bordered" id="table-data-insured">
+							<thead>
+								<tr>
+									<th>No.</th> 
+									<th>file name</th>
+									<th>ceding</th>
+									<th>treaty name</th> 
+									<th>upload number</th> 
+									<th>Detail</th>
+									<th>Validasi Data</th>
+								</tr>
+							</thead>
+							<tbody></tbody>	
+							</table>
+				
+					</div>
+				</div>
+		</fieldset>
+		</div>
 
 	
 			
 		<div>
 		<fieldset class="scheduler-border">
-		<legend class="scheduler-border">Data Hasil Upload Excel </legend>		
+		<legend class="scheduler-border">Data Hasil Upload </legend>		
 			    <div class="position-relative ">
                   	<div class="table-responsive">
-							<table class="table table-bordered" id="table-data-insured">
+							<table class="table table-bordered" id="table-data-insured-detail">
 							<thead>
 								<tr>
 									<th>No.</th> 
@@ -192,6 +227,9 @@ ini_set('display_errors', 'On');
 									<th>birth_date</th>
 									<th>stnc</th>
 									<th>Tgl upload</th>
+									<th>File Name</th>
+									<th>Path File </th>
+									
 								</tr>
 							</thead>
 							<tbody></tbody>	
@@ -203,10 +241,10 @@ ini_set('display_errors', 'On');
 		</div>
 		
 
-	
+		
 		<div class="" >
 		<fieldset class="scheduler-border">
-		<legend class="scheduler-border">Data setelah Validasi </legend>		
+		<legend class="scheduler-border">Data Validasi </legend>		
 		<div class="position-relative ">
 		<div class="table-responsive">
         <p><h1></h1></p>
@@ -215,12 +253,36 @@ ini_set('display_errors', 'On');
 								<thead>
 								<tr>
 									<th>No.</th> 
+									<th>Nama File</th>
+							<!--	<th>tgl validasi</th> -->
+									<th>detail</th> 
+								</tr>
+								</thead>
+                 
+            </table>
+        </div>
+		</div>
+   </div>
+		</fieldset>
+</div>
+		
+	
+		<div class="" >
+		<fieldset class="scheduler-border">
+		<legend class="scheduler-border">Data setelah Validasi </legend>		
+		<div class="position-relative ">
+		<div class="table-responsive">
+        <p><h1></h1></p>
+        <div >
+            <table id='tbl_claim_check_result_detail' class='table table-bordered'>
+								<thead>
+								<tr>
+									<th>No.</th> 
 									<th>claim_insd_name</th>
 									<th>pl_insd_name</th>
 									<th>result_insd_name</th>
 									<th>claim_policy_no</th>
 									<th>pl_policy_no</th>
-									
 									<th>result_policy_no</th>
 									<th>claim_certificate_no</th>
 									<th>pl_certificate_no</th>
@@ -245,6 +307,9 @@ ini_set('display_errors', 'On');
 									<th>result_check_claim_tre_share_cedant_vs_tre</th>
 									<th>result_overall_clm_status</th>
 									<th>remark</th>
+									<th>file name</th>
+									<th>path file</th>
+									<th>tgl validasi</th> 
 								</tr>
 								</thead>
                  
@@ -265,12 +330,9 @@ ini_set('display_errors', 'On');
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script> 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
 
- 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+
 
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.4.1/css/buttons.dataTables.min.css">
 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/dataTables.buttons.min.js"></script>
@@ -283,11 +345,20 @@ ini_set('display_errors', 'On');
 		<script>
 		var tabel = null;
 		var tbl_claim_check_result = null;
+		var tabel_insured = null;
 		// var server = "http://localhost:90/data_claim/";
 
 		$(document).ready(function() {
 			$("#wait").hide();
-		    tabel = $('#table-data-insured').DataTable({
+			
+			
+			show_tabel_insured();
+			show_tbl_claim_check_result();
+			
+			
+		function show_tabel_insured(){
+		
+				tabel_insured = $('#table-data-insured').DataTable({
 				lengthMenu:[
                     [5,10,25,50,100,10000],
                     [5,10,25,50,100,10000]
@@ -297,8 +368,95 @@ ini_set('display_errors', 'On');
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
-                    "url": "view_tbl_claim_bm.php"
+                    "url": "view_validasi.php"
                 },
+				// rowId: 'id',
+				select: true,
+                pageLength: 5,
+		        "columns": [						
+							{ "data": "no" },
+							{ "data": "file_name" },  
+							{ "data": "ceding_name" }, 
+							{ "data": "treaty_name" }, 
+							{ "data": "upload_number" },   	
+							// { "mRender": function(data, type, full) {
+								// return '<a class="btn btn-info btn-sm getx" href=#/' + full[0] + '>' + 'Detail' + '</a>';
+							  // }
+							// },
+							
+							{
+								'data': null,
+								'render': function (data, type, row) {
+											return '<button class="btn btn-info btn-sm getx" id="' + row.file_name +'" >Detail</button>'
+										}
+							},
+							{
+								'data': null,
+								'render': function (data, type, row) {
+											return '<button class="btn btn-info btn-sm getValidasiData" id="' + row.file_name +'" >Validasi Data</button>'
+										}
+							},
+		        ],
+					
+		    });	
+			
+			
+			
+			$('#table-data-insured tbody').on('click', '.getx', function () {
+					  var fila = $(this).closest("tr");
+					  var data = tabel_insured.row( fila ).data();
+					  console.log(data);
+					  
+					  var ceding_name = data.ceding_name;
+					  var file_name = data.file_name;
+					  // var id = data.id;
+					  var treaty_name = data.treaty_name;
+					  var upload_number = data.upload_number; 
+					  detail_validasi_insured(file_name,upload_number,"list_insured");
+				});
+				
+				$('#table-data-insured tbody').on('click', '.getValidasiData', function () {
+					  var fila = $(this).closest("tr");
+					  var data = tabel_insured.row( fila ).data();
+					  console.log('data= ',data);
+					  
+					  var ceding_name = data.ceding_name;
+					  var file_name = data.file_name;
+					  var id = data.id;
+					  var treaty_name = data.treaty_name;
+					  var upload_number = data.upload_number; 
+					  cek_validasi_data(file_name,upload_number,ceding_name,treaty_name); 
+				});
+			
+		}
+		    
+			
+				
+				
+		
+		
+		
+		function detail_validasi_insured(par1,par2,par3) {		
+		
+			$("#table-data-insured-detail").dataTable().fnDestroy();
+
+		    tabel = $('#table-data-insured-detail').DataTable({
+				lengthMenu:[
+                    [5,10,25,50,100,10000],
+                    [5,10,25,50,100,10000]
+                ],
+				 "bDestroy": true,
+				'processing': true,
+                'serverSide': true,
+                'serverMethod': 'post',
+				"ajax": {
+					"url": 'view_tbl_claim_bm.php',
+					"type": 'POST',
+					"data":  {
+						file_name:par1,
+						upload_number:par2
+						}
+				},
 				// rowId: 'id',
 				select: true,
                 pageLength: 5,
@@ -333,36 +491,125 @@ ini_set('display_errors', 'On');
 							{ "data": "birth_date" },  
 							{ "data": "stnc" }, 
 							{ "data": "upload_date" },  
+							{ "data": "file_name" },  
+							{ "data": "path_file" }
 				
-		            // { "render": function ( data, type, row ) { // Tampilkan kolom aksi
-		                    // var html  = "<a href=''>EDIT</a> | "
-		                    // html += "<a href=''>DELETE</a>"
-
-		                    // return html
-		                // }
-		            // },
 		        ],
 		    });
+			$('#table-data-insured-detail').DataTable().ajax.reload(); 
 
+		}
+		
+		
+		
+		function show_tbl_claim_check_result(tbl_claim_check_result){
+				tbl_claim_check_result = $('#tbl_claim_check_result').DataTable({
+				lengthMenu:[
+                    [5,10,25,50,100,10000],
+                    [5,10,25,50,100,10000]
+                ],
+                
+				'processing': true,
+                'serverSide': true,
+                'serverMethod': 'post',
+                'ajax': {
+                    "url": "view_tbl_claim_check_result.php" 
+                },
+				select: true,
+                pageLength: 5,
+		        "columns": [						
+							{ "data": "no" }, 
+							{ "data": "file_name" },  
+							// { "data": "validasi_date" }, 
+							// { "data": "validasi_date" }
+							{
+								'data': null,
+								'render': function (data, type, row) {
+											return '<button class="btn btn-info btn-sm getDtRes" id="' + row.file_name +'" >Detail</button>'
+										}
+							},
+							
+		        ],
+		    });
+			
+			
+			$('#tbl_claim_check_result tbody').on('click', '.getDtRes', function () {
+					  var fila = $(this).closest("tr");
+					  var data = tbl_claim_check_result.row( fila ).data();
+					  console.log(data);
+					  
+					  var validasi_number = null;
+					  
+					  var file_name = data.file_name;
+					  var id = data.id;
+					  var validasi_date = null;
+					  detail_check_result_validasi(file_name,validasi_date,validasi_number);
+				});
+			
+		}
+		
+				
+				
+				
 
-			var empDataTable = $('#tbl_claim_check_result').DataTable({
-				// buttons: [ 'copy','csv','print', 'excel', 'pdf', 'colvis' ],
+	    
+		function detail_check_result_validasi(file_name,validasi_date,validasi_number) {		
+			
+			$("#tbl_claim_check_result_detail").dataTable().fnDestroy();
+		    empDataTable = $('#tbl_claim_check_result_detail').DataTable({
+				lengthMenu:[
+                    [5,10,25,50,100,10000],
+                    [5,10,25,50,100,10000]
+                ],
                 dom: 
                 "<'row'<'col-md-3'l><'col-md-5'B><'col-md-4'f>>" +
                 "<'row'<'col-md-12'tr>>" +
                 "<'row'<'col-md-5'i><'col-md-7'p>>",
-                lengthMenu:[
-                    [5,10,25,50,100,10000],
-                    [5,10,25,50,100,10000]
-                ],
-				buttons: [ 'csv','excel' ],
+				// buttons: [ 'csv','excel' ],
+				buttons: [
+					{
+					extend: 'excel',
+					text : 'Export to Excel',
+					filename: function(){
+									var d = new Date();
+									var year = d.getFullYear();
+									var month = (d.getMonth()+1);
+									var day = d.getDate();
+									var hours = d.getHours();
+									var minutes = d.getMinutes();
+									var ms = d.getMilliseconds();
+									return 'excel_' + year+'-'+month+'-'+day+'-'+hours+'-'+minutes+'-'+ms;
+								}
+					},
+					{
+					extend: 'csv',
+					text : 'Export to CSV',
+					filename: function(){
+						var d = new Date();
+									var year = d.getFullYear();
+									var month = (d.getMonth()+1);
+									var day = d.getDate();
+									var hours = d.getHours();
+									var minutes = d.getMinutes();
+									var ms = d.getMilliseconds();
+									return 'csv_' + year+'-'+month+'-'+day+'-'+hours+'-'+minutes+'-'+ms;
+								}
+					},
+				],
                 'processing': true,
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
-                    "url": "view_tbl_claim_check_result.php"
+                    "url": "view_tbl_claim_check_result_detail.php",
+					"type": 'POST',
+					"data":  {
+						file_name:file_name,
+						validasi_date:validasi_date,
+						validasi_number:validasi_number
+						}
                 },
-                pageLength: 5,
+				
+                pageLength: 10000,
 				"autoWidth": false, 
                 'columns': [ 
 							{ "data":"no" ,"title": "No.","width":"50%"},
@@ -395,31 +642,27 @@ ini_set('display_errors', 'On');
 							{ "data":"result_check_claim_tre_share_cedant_vs_tre", "title": "Check Claim TRE Share (Cedant ver vs TRE ver)",}, 
 							{ "data":"result_overall_clm_status", "title": "Overall Claim Status",}, 
 							{ "data":"remark"}, 			
-                ],
-            });
-
-			empDataTable.buttons().container().appendTo( '#table_wrapper .col-md-5:eq(0)' );
-
-						
-					$('#upload').on('click', function() {
-							$("#wait").show();
-						
+							{ "data":"file_name", "title": "nama file",}, 
+							{ "data":"path_file", "title": "path file",}, 
+							{ "data":"validasi_date", "title": "tgl validasi",}
+					],
+				});
+				$('#tbl_claim_check_result_detail').DataTable().ajax.reload(); 
+			}
+	
+	
+	
+		
+			$('#upload').on('click', function() {
+						$("#wait").show();
 						if ( $('#ceding_name').val() == "" ){
 									$("#wait").hide(); 
-									Swal.fire(
-											"",
-											"Nama Ceding belum dipilih",
-											'info'
-											)	;
-											return false;
+									Swal.fire("","Nama Ceding belum dipilih",'info');
+									return false;
 						} else if ( $('#treaty_name').val() =="" ){
-								$("#wait").hide(); 
-								Swal.fire(
-											"",
-											"Nama Treaty belum dipilih",
-											'info'
-											)	;
-											return false;
+									$("#wait").hide(); 
+									Swal.fire("","Nama Treaty belum dipilih",'info');
+									return false;
 						}
 						else{
 							Swal.fire({
@@ -451,20 +694,16 @@ ini_set('display_errors', 'On');
 									processData: false,
 								success: function(output) {    
 									$("#wait").hide();   
-									console.log(' output= ', output );
-									// var json = $.parseJSON(output);
-									// var json = json_encode(output);
-									// console.log('json.message ', json.message );
-									
-									Swal.fire(
-										output.message,
-										'Data Telah tersimpan',
-										'success'
-										)																			
+										console.log(' output= ', output ); 
+										var dt = parseInt(output);
+										console.log('check_data ',dt);
+										if( dt > 0){
+											Swal.fire("File sudah ada",'','info')			 
+										}else{
+											Swal.fire("Data berhasil di Upload",'','success');
+										} 																
 										$('#table-data-insured').DataTable().ajax.reload(); 
-								
 										UPLOAD_NUMBER();
-
 									}
 								});
 								
@@ -474,7 +713,6 @@ ini_set('display_errors', 'On');
 						  })
 					   }
 					}); 
-
 
 
 					
@@ -506,31 +744,12 @@ ini_set('display_errors', 'On');
 					
 
 						
-					$('#check_data').on('click', function() {
-						$("#wait").show();
-						if ( $('#ceding_name').val() == "" ){
-									$("#wait").hide(); 
-									Swal.fire(
-											"",
-											"Nama Ceding belum dipilih",
-											'info'
-											)	;
-											return false;
-						} else if ( $('#treaty_name').val() =="" ){
-								$("#wait").hide(); 
-								Swal.fire(
-											"",
-											"Nama Treaty belum dipilih",
-											'info'
-											)	;
-											return false;
-						}
-						else{
-
+					function cek_validasi_data(file_name,upload_number,ceding_name,treaty_name) {
+							$("#wait").show();
 							Swal.fire({
 							title: 'Check data!',
 							// text: "Akan dilakukan Check data!",
-							text: "Akan dilakukan Check data untuk Ceding '"+$('#ceding_name').val().trim()+"' dan treaty '"+ $('#treaty_name').val().trim()+"' ",
+							text: "Akan dilakukan Check data untuk Ceding '"+ceding_name+"' dan treaty '"+ treaty_name +"' ",
 							icon: 'info',
 							showCancelButton: true,
 							confirmButtonColor: '#3085d6',
@@ -539,37 +758,44 @@ ini_set('display_errors', 'On');
 							}).then((result) => {
 							if (result.isConfirmed) {
 
-								var formdata = new FormData();
-								formdata.append("kode", "CHECK_DATA_CLAIM_TREATY");
-								formdata.append("ceding_name", $('#ceding_name').val() );
-								formdata.append("treaty_name", $('#treaty_name').val() );
+								// var file = document.getElementById("sortdata").files[0];
+								var formdata2 = new FormData();
+								// formdata2.append("file", file);
+								formdata2.append("kode", "CHECK_DATA_CLAIM_TREATY");
+								formdata2.append("file_name", file_name );
+								formdata2.append("ceding_name", ceding_name );
+								formdata2.append("treaty_name", treaty_name);
+								formdata2.append("upload_number", upload_number);
+
 								$.ajax({
 									url: "list_data.php",
 									type: "POST",
-									data: formdata,
+									data: formdata2,
 									cache: false,
 									contentType: false,
 									processData: false,
 
 									success: function(output) {       
 										$("#wait").hide();
-										console.log('check_data ',output);
-										Swal.fire(
-											output.message,
-											'Data Telah tersimpan',
-											'success'
-											)	
-											$('#tbl_claim_check_result').DataTable().ajax.reload(); 
+										var dt = parseInt(output);
+										console.log('check_data ',dt);
+										if( dt > 0){
+											Swal.fire("File sudah ada",'','info');
+										}else{
+											Swal.fire("Data berhasil di validasi",'','success');
 										} 
+										$('#tbl_claim_check_result').DataTable().ajax.reload(); 
+									}
+
 								}); 
 							}else {
 								$("#wait").hide();
 							}
 						  })
 
-						}
+						// }
 						
-					}); 
+					}
 
 
 
@@ -617,9 +843,12 @@ ini_set('display_errors', 'On');
 
 									var listitems = "";
 									let no_contract = "";
+									let id_treaty_insured = "";
 									$.each(treaty, function(key, val){
-										no_contract = val.no_contract.toString()
-										console.log('val= ',val.no_contract);
+										no_contract = val.no_contract.toString();
+										// id_treaty_insured = val.id.toString();
+										console.log('val.no_contract= ',val.no_contract);
+										// console.log('val.id= ',val.id);
 										listitems += '<option value='+no_contract.toString()+'>'+no_contract.toString()+'</option>';
 									});
 									$("#treaty_name").append(listitems);

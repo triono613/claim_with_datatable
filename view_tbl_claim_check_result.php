@@ -4,6 +4,8 @@ include "koneksi.php";
 $search = $_POST['search']['value']; 
 $limit = $_POST['length']; 
 $start = $_POST['start']; 
+// $file_name = $_POST['file_name']; 
+// $upload_number = $_POST['upload_number'];
 
 
 $db = new koneksi();
@@ -13,18 +15,24 @@ $cc= $db->db_row_count($sql);
 
 
 
-$query = "SELECT * FROM tbl_claim_check_result WHERE (claim_insd_name LIKE '%".$search."%' OR claim_policy_no LIKE '%".$search."%'  OR claim_certificate_no LIKE '%".$search."%' )";
+// $query = "SELECT * FROM tbl_claim_check_result WHERE (claim_insd_name LIKE '%".$search."%' OR claim_policy_no LIKE '%".$search."%'  OR claim_certificate_no LIKE '%".$search."%' )";
+$query = "select file_name from tbl_claim_check_result WHERE claim_insd_name LIKE '%".$search."%' OR claim_policy_no LIKE '%".$search."%'  OR claim_certificate_no LIKE '%".$search."%'  group by 1 ";
 $order_index = $_POST['order'][0]['column']; 
 $order_field = $_POST['columns'][$order_index]['data']; 
 $order_ascdesc = $_POST['order'][0]['dir']; 
 // $order = " ORDER BY ".$order_field." ".$order_ascdesc;
-$order = " ORDER BY ID ".$order_ascdesc;
+$order = " ORDER BY file_name ".$order_ascdesc;
 
 $stro = $query.$order." LIMIT ".$limit." OFFSET ".$start;
 
-
 $sql_data = $db->db_fetch_array($query.$order." LIMIT ".$limit." OFFSET ".$start); 
 $sql_filter = $db->db_row_count($query); 
+
+// echo "<pre>";
+// echo "sql_filter= ";print_r($sql_filter);
+// die;
+
+
 
 
 $data = array(); 
@@ -40,7 +48,7 @@ foreach($result as $d){
 
 $callback = array(
     'draw'=>$_POST['draw'], 
-    'recordsTotal'=>$cc['data'], 
+    'recordsTotal'=>$sql_filter['data'], 
     'recordsFiltered'=>$sql_filter['data'], 
     'data'=>$data
 );

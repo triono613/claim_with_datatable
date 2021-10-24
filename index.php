@@ -19,144 +19,79 @@
 		
 
       <title>data_claim</title>
+
+      <style>
+        body {
+        background: #007bff;
+        background: linear-gradient(to right, #0062E6, #33AEFF);
+        }
+
+        .btn-login {
+        font-size: 0.9rem;
+        letter-spacing: 0.05rem;
+        padding: 0.75rem 1rem;
+        }
+
+        
+
+        .centered {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+		}
+     </style>
 </head>
 <body class="hold-transition sidebar-mini">	
 	
-	<div class="wrapper">
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
-    </ul> 
-  </nav>
+ 
 
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <div class="sidebar">
-      
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Menu
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="index?page=home" class="nav-link">
-                  <p>Data Insured</p>
-                </a>
-              </li>
-			        <li class="nav-item">
-                <a href="index?page=import_data_new" class="nav-link">
-                  <p>Upload Data </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="index?page=import_data_treaty" class="nav-link">
-                  <p>Upload Data Bali Mandara</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="index?page=setting_uw" class="nav-link">
-                  <p>Setting Ketentuan Underwriting</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </aside>
-
-  
-  <div class="content-wrapper">
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-		  
-            <h1 class="m-0">
-			 <?php 
-				if(isset($_GET['page'])){
-					$page = $_GET['page'];
-			 
-					switch ($page) {
-						case 'home':
-							echo "Data Insured";
-							break;
-						case 'import_data_new':
-							echo "Import Data";
-							break;
-            case 'import_data_treaty':
-                echo "Import Data";
-                break;
-            case 'setting_uw':
-                echo "";
-                break;
-                
-						default:
-							echo "<center><h3>Maaf. Halaman tidak di temukan !</h3></center>";
-							break;
-					}
-				}
-				?>
-			</h1>
+         
+<div class="container">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card border-0 shadow rounded-3 my-5">
+          <div class="card-body p-4 p-sm-5">
+          <div class="text-center">
+          <img  src="https://www.tugure.id/uploads/web_config/606be2e4b96f5_20210406112612-1.png" width="70px" height="60px" class="" alt="logo tugure">
           </div>
-          <div class="col-sm-6">
-            
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="card">
-              
-              <div class="card-body">
-			  
-			  <?php 
-				if(isset($_GET['page'])){
-					$page = $_GET['page'];
-			 
-					switch ($page) {
-						case 'home':
-							include "page/data_insured.php";
-							break;
-						case 'import_data_new':
-							include "page/import_data_new.php";
-							break;
-            case 'import_data_treaty':
-                include "page/import_data_treaty.php"; 
-                break;
-            case 'setting_uw':
-                include "page/setting_uw.php";
-                break;
-							
-						default:
-							echo "<center><h3>Maaf. Halaman tidak di temukan !</h3></center>";
-							break;
-					}
-				} else {
-					
-				}
-			?>
+            <br>
+            <form id="">
+              <div class="form-floating mb-3">
+              <label for="floatingInput">Username</label>
+                <input id="username" type="text" name="username" style="display: ;" class="form-control" />
                 
               </div>
-            </div>
-          </div>
+              <div class="form-floating mb-3">
+              <label for="floatingPassword">Password</label>
+                <input id="password" type="password" name="password" style="display: ;" class="form-control" />
+              </div>
+
+              <div class="d-grid">
+                  <button type="button" name="check_datax" id="check_datax" class="btn btn-primary btn-login text-uppercase fw-bold">
+                  Sign in </button>
+              </div>
+              <hr class="my-4">
+              
+              <div class="d-grid mb-2">
+                <button class="btn btn-google btn-login text-uppercase fw-bold" >
+                  <i class="fab me-2"></i> Register
+                </button>
+              </div>
+              <div class="d-grid">
+                <!-- <button class="btn btn-facebook btn-login text-uppercase fw-bold" type="submit">
+                  <i class="fab fa-facebook-f me-2"></i> Sign in with Facebook
+                </button> -->
+              </div>
+
+
+
+            </form>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -177,13 +112,6 @@
     <script src="assets/DataTables/Buttons-1.5.6/js/buttons.colVis.min.js"></script>
 	
 	
-	<!--<script src="plugins/jquery/jquery.min.js"></script> 
-	<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script> 
-	<script src="dist/js/pages/dashboard3.js"></script>
-	<script type="text/javascript" src="js/jquery.min.js"></script>
-	<script type="text/javascript" src="datatables/datatables.min.js"></script>
-	<script type="text/javascript" src="datatables/lib/js/dataTables.bootstrap.min.js"></script>
-	-->
 	<script src="dist/js/adminlte.js"></script>
 	<script src="plugins/chart.js/Chart.min.js"></script>
 
@@ -192,22 +120,34 @@
 			
 
     <script>
-        $(document).ready(function() {
-            var table = $('#table').DataTable( {
-                buttons: [ 'copy','csv','print', 'excel', 'pdf', 'colvis' ],
-                dom: 
-                "<'row'<'col-md-3'l><'col-md-5'B><'col-md-4'f>>" +
-                "<'row'<'col-md-12'tr>>" +
-                "<'row'<'col-md-5'i><'col-md-7'p>>",
-                lengthMenu:[
-                    [5,10,25,50,100,-1],
-                    [5,10,25,50,100,"All"]
-                ]
-            } );
-        
-            table.buttons().container()
-                .appendTo( '#table_wrapper .col-md-5:eq(0)' );
-        } );
+      $(document).ready(function() {
+
+      $('#check_datax').on('click', function() {
+						$("#wait").show();
+						// event.preventDefault();       
+							$.ajax({
+							  url: "list_data.php",
+                async: false, 
+								type: "POST",
+								dataType: "json",
+								data: {
+										kode: 'validasi_login', 
+										data: {
+                            'username' : $('#username').val(), 
+                            'password' : $('#password').val()
+                      }
+									},
+								success: function(output) {       
+									$("#wait").hide();
+                    console.log('output= ',output);
+                    window.location.href = "dashboard";
+									} 
+							}); 
+						}); 
+
+
+
+      });
     </script>
 </body>
 

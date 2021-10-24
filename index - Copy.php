@@ -103,7 +103,6 @@ ini_set('display_errors', 'On');
 			 
 					switch ($page) {
 						case 'home':
-							
 							echo "Data Insured";
 							break;
 						case 'import_data':

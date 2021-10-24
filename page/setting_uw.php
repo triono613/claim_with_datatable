@@ -1,6 +1,17 @@
 <?php
 require_once('koneksi.php');
 ini_set('display_errors', 'On');
+
+// session_start();
+// echo "SESSION= ";print_r($_SESSION);
+if(!strlen(trim($_SESSION['username']))) {
+  // session_destroy();
+  unset($_SESSION["username"]);
+  header("Location:index");
+  exit();
+  }
+
+
 ?>
 
 <!DOCTYPE html>

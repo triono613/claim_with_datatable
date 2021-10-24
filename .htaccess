@@ -1,7 +1,7 @@
 Header set Access-Control-Allow-Origin "*"
 Header set Access-Control-Allow-Methods "GET,PUT,POST,DELETE"
 Header set Access-Control-Allow-Headers "Content-Type, Authorization"
-Header add Access-Control-Allow-Origin "http://www.amanahgitha.com"
+Header add Access-Control-Allow-Origin "https://www.tugure.id"
 
 <IfModule mod_rewrite.c>
 RewriteEngine on

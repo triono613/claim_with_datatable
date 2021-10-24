@@ -6,10 +6,6 @@ ini_set('display_errors', 'Off');
 header("Access-Control-Allow-Origin: *"); 
 
 
-// echo "<pre>";
-// print_r($_POST);
-// die;
-
 switch ($_POST['kode']) {
 
     	case 'upload':
@@ -26,117 +22,102 @@ switch ($_POST['kode']) {
 		$rootDir = realpath($_SERVER["DOCUMENT_ROOT"]);
 		$path = "$rootDir/temp/".$fileName;
 		
-		$database = new Koneksi;	
-		$sqlCekFile = "select count(*) from tbl_claim_data where file_name ='$fileName' ";																		
-		$dataCekFile = $database->db_fetch_obj($sqlCekFile);
-		
-			// echo "<pre>";
-			// print_r($dataCekFile); die;
-			// (bool)$dataQuery['data']['count']
-
-		$dtCount = (int)$dataCekFile['data']['count'];
-		if( $dtCount > 0 ){
-			// echo "kesini aja"; die;
-			echo json_encode($dtCount); 
-		} else {
-			// echo "kesono aja"; die;
 			
-				if($ext == "xlsx"){				
-					$temp = "temp/";
-					if (!file_exists($temp)){
-						mkdir($temp);
-					}
-					(move_uploaded_file($fileTmp, $temp . "$nm_date"));
-					
-					require_once 'PHPExcel/PHPExcel.php';
-					$excelreader = new PHPExcel_Reader_Excel2007();
-					$loadexcel = $excelreader->load('temp/'.$nm_date); 
-					$sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
+		if($ext == "xlsx"){				
+			$temp = "temp/";
+			if (!file_exists($temp)){
+				mkdir($temp);
+			}
+			(move_uploaded_file($fileTmp, $temp . "$nm_date"));
+			
+			require_once 'PHPExcel/PHPExcel.php';
+			$excelreader = new PHPExcel_Reader_Excel2007();
+			$loadexcel = $excelreader->load('temp/'.$nm_date); 
+			$sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
 
-					// echo "<pre>";
-					// echo "sheet= ";print_r( $sheet);
-					// die;
+			// echo "<pre>";
+			// echo "sheet= ";print_r( $sheet);
+			// die;
 
-					$db = new koneksi();
-					$numrow = 1;
-					$kosong = 0;
-					(int)$key ;
-					foreach($sheet as $key=>$row){ 
+			$db = new koneksi();
+			$numrow = 1;
+			$kosong = 0;
+			(int)$key ;
+			foreach($sheet as $key=>$row){ 
+				
+				$cedant_clm_nbr = $row['B']; 
+				$policy_no = $row['C']; 
+				$certificate_no = $row['D']; 
+				$insured_name = $row['E']; 
+				$effective_date = $row['F']; 
+				$sum_assured = $row['G']; 
+				$benefit = $row['H']; 
+				$event_date = $row['I']; 
+				$submit_date = $row['J'];
+				$complate_date = $row['K']; 
+				$approval_date = $row['L']; 
+				$payment_date = $row['M']; 
+				$investigation = $row['N']; 
+				$curr_idr = $row['O']; 
+				$submission_amt = $row['P']; 
+				$approved_amt = $row['Q']; 
+				$paid_amt = $row['R']; 
+				$diagnosis_desc = $row['S']; 
+				$tre_share_amt = $row['T']; 
+				$sent_to_reinsr_date = $row['U']; 
+				$sla = $row['V'];
+				$tre_si = $row['W'];
+				$birth_date = $row['X'];
+				$cedant_rate = $row['Y']; 
+				$stnc = $row['Z']; 
+				
 						
-						$cedant_clm_nbr = $row['B']; 
-						$policy_no = $row['C']; 
-						$certificate_no = $row['D']; 
-						$insured_name = $row['E']; 
-						$effective_date = $row['F']; 
-						$sum_assured = $row['G']; 
-						$benefit = $row['H']; 
-						$event_date = $row['I']; 
-						$submit_date = $row['J'];
-						$complate_date = $row['K']; 
-						$approval_date = $row['L']; 
-						$payment_date = $row['M']; 
-						$investigation = $row['N']; 
-						$curr_idr = $row['O']; 
-						$submission_amt = $row['P']; 
-						$approved_amt = $row['Q']; 
-						$paid_amt = $row['R']; 
-						$diagnosis_desc = $row['S']; 
-						$tre_share_amt = $row['T']; 
-						$sent_to_reinsr_date = $row['U']; 
-						$sla = $row['V'];
-						$tre_si = $row['W'];
-						$birth_date = $row['X'];
-						$cedant_rate = $row['Y']; 
-						$stnc = $row['Z']; 
+				$tre_si = !empty($tre_si) ? "$tre_si" : 0; 
+				$cedant_rate = !empty($cedant_rate) ? "$cedant_rate" : 0; 
+				$birth_date = !empty($birth_date) ? "'$birth_date'" : "NULL"; 
+				$effective_date = !empty($effective_date) ? "'$effective_date'" : "NULL";
+				$event_date = !empty($event_date) ? "'$event_date'" : "NULL";
+				$submit_date = !empty($submit_date) ? "'$submit_date'" : "NULL";
+				$complate_date = !empty($complate_date) ? "'$complate_date'" : "NULL";
+				$approval_date = !empty($approval_date) ? "'$approval_date'" : "NULL";
+				$payment_date = !empty($payment_date) ? "'$payment_date'" : "NULL";
+				$stnc = !empty($stnc) ? "'$stnc'" : "NULL";
+				
+
+				// if($certificate_no == "" && $nama == "" && $jenis_kelamin == "" && $telp == "" && $alamat == "")
+					// continue; // Lewat data pada baris ini (masuk ke looping selanjutnya / baris selanjutnya)
+
+				if($key > 1){					
+				    $sqlQuery = " INSERT INTO public.tbl_claim_data
+							(cedant_clm_nbr, policy_no, certificate_no, insured_name, effective_date, sum_assured, benefit, event_date, submit_date, complate_date, 
+							approval_date, payment_date, investigation, curr_idr, submission_amt, approved_amt, paid_amt, diagnosis_desc, tre_share_amt, sent_to_reinsr_date, sla, upload_number,ceding_name, treaty_name,tre_si,birth_date,cedant_rate,stnc,file_name,path_file )
+							VALUES( 
+							'$cedant_clm_nbr', '$policy_no', '$certificate_no', '$insured_name', $effective_date, '$sum_assured', '$benefit',$event_date, 
+							$submit_date,$complate_date,$approval_date , $payment_date, '$investigation', '$curr_idr', '$submission_amt', '$approved_amt', 
+							'$paid_amt', '$diagnosis_desc', '$tre_share_amt', '$sent_to_reinsr_date', '$sla',  '$upload_nmbr', '$ceding_name', '$treaty_name','$tre_si',$birth_date,'$cedant_rate', $stnc,'$fileName','$path') "; 
 						
-								
-						$tre_si = !empty($tre_si) ? "$tre_si" : 0; 
-						$cedant_rate = !empty($cedant_rate) ? "$cedant_rate" : 0; 
-						$birth_date = !empty($birth_date) ? "'$birth_date'" : "NULL"; 
-						$effective_date = !empty($effective_date) ? "'$effective_date'" : "NULL";
-						$event_date = !empty($event_date) ? "'$event_date'" : "NULL";
-						$submit_date = !empty($submit_date) ? "'$submit_date'" : "NULL";
-						$complate_date = !empty($complate_date) ? "'$complate_date'" : "NULL";
-						$approval_date = !empty($approval_date) ? "'$approval_date'" : "NULL";
-						$payment_date = !empty($payment_date) ? "'$payment_date'" : "NULL";
-						$stnc = !empty($stnc) ? "'$stnc'" : "NULL";
-						
-
-						// if($certificate_no == "" && $nama == "" && $jenis_kelamin == "" && $telp == "" && $alamat == "")
-							// continue; // Lewat data pada baris ini (masuk ke looping selanjutnya / baris selanjutnya)
-
-						if($key > 1){					
-							$sqlQuery = " INSERT INTO public.tbl_claim_data
-									(cedant_clm_nbr, policy_no, certificate_no, insured_name, effective_date, sum_assured, benefit, event_date, submit_date, complate_date, 
-									approval_date, payment_date, investigation, curr_idr, submission_amt, approved_amt, paid_amt, diagnosis_desc, tre_share_amt, sent_to_reinsr_date, sla, upload_number,ceding_name, treaty_name,tre_si,birth_date,cedant_rate,stnc,file_name,path_file )
-									VALUES( 
-									'$cedant_clm_nbr', '$policy_no', '$certificate_no', '$insured_name', $effective_date, '$sum_assured', '$benefit',$event_date, 
-									$submit_date,$complate_date,$approval_date , $payment_date, '$investigation', '$curr_idr', '$submission_amt', '$approved_amt', 
-									'$paid_amt', '$diagnosis_desc', '$tre_share_amt', '$sent_to_reinsr_date', '$sla',  '$upload_nmbr', '$ceding_name', '$treaty_name','$tre_si',$birth_date,'$cedant_rate', $stnc,'$fileName','$path') "; 
-								
-								// echo "<pre>";
-								// print_r( $sqlQuery);
-								// die;
-		
-							$dataQuery = $db->insert($sqlQuery);
-
-							$cedant_clm_nbr_td = ( ! empty($cedant_clm_nbr))? "" : " style='background: #E07171;'"; 
-							$policy_no_td = ( ! empty($policy_no))? "" : " style='background: #E07171;'"; 
-							$certificate_no_td = ( ! empty($certificate_no))? "" : " style='background: #E07171;'"; 
-							$insured_name_td = ( ! empty($insured_name))? "" : " style='background: #E07171;'"; 
-								
-						} 
+						// echo "<pre>";
+						// print_r( $sqlQuery);
 						// die;
-					}
-					// die;
-					echo json_encode($dataQuery);
+ 
+					$dataQuery = $db->insert($sqlQuery);
 
-				}
-				else{ // Jika file yang diupload bukan File Excel 2007 (.xlsx)
-					echo "<div class='alert alert-danger'>
-					Hanya File Excel 2007 (.xlsx) yang diperbolehkan
-					</div>";
-				}
+					$cedant_clm_nbr_td = ( ! empty($cedant_clm_nbr))? "" : " style='background: #E07171;'"; 
+					$policy_no_td = ( ! empty($policy_no))? "" : " style='background: #E07171;'"; 
+					$certificate_no_td = ( ! empty($certificate_no))? "" : " style='background: #E07171;'"; 
+					$insured_name_td = ( ! empty($insured_name))? "" : " style='background: #E07171;'"; 
+						
+				} 
+				// die;
+			}
+			// die;
+			echo json_encode($dataQuery);
+
+		}
+		else{ // Jika file yang diupload bukan File Excel 2007 (.xlsx)
+			echo "<div class='alert alert-danger'>
+			Hanya File Excel 2007 (.xlsx) yang diperbolehkan
+			</div>";
 		}
         break;
 
@@ -162,9 +143,6 @@ switch ($_POST['kode']) {
 			break;
 	case 'validasi_login':	
 			validasi_login($_POST);
-			break;
-	case 'list_insured':	
-			list_insured($_POST);
 			break;
     default:
 		break;
@@ -254,28 +232,14 @@ function KonDecRomawi($angka)
 function check_max_upload_number($data=""){
 	
 	$database = new Koneksi;
-	$sqlQuery = "select max(left(upload_number,-13)) as upload_number from tbl_claim_data ";										
+	$sqlQuery = "select max(left(upload_number,-14)) as upload_number from tbl_claim_data ";										
 	$dataQuery = $database->db_fetch_obj($sqlQuery);
-	$dt_upload = ((int)$dataQuery['data']['upload_number']);
-	
-	// echo "<pre>";
-	// echo "dt_upload= "; print_r($dt_upload); echo "\n";
-	// die;
-	
-	// iif( empty($dt_upload)  , (int)($dt_upload+1),(int)($dt_upload+1) );
-	
-	$dt_upload = ( !empty($dt_upload) ) ? (int)($dt_upload+1) : (int)($dt_upload+1);
 
 	$year = date("Y");
 	$month = date("m");
 	
 	if( $dataQuery['success'] && $dataQuery['status']==200 ){
-		$dt = $dt_upload;
-		
-		
-	// echo "<pre>";
-	// echo "dt_upload= "; print_r($dt_upload);echo "\n";
-	// die;
+		$dt = ( (int)$dataQuery['data']['upload_number'] ) + 1;
 
 		if( $dt == 0 | $dt == 1 | $dt == 2 | $dt == 3 
 		| $dt == 4 | $dt == 5 | $dt == 6 | $dt == 7 | $dt == 8 | $dt == 9
@@ -286,10 +250,6 @@ function check_max_upload_number($data=""){
 		}	
 
 		$upload_number = $has.'/CLAIM/'.KonDecRomawi($month).'/'.$year; 
-		// echo "upload_number= "; print_r($upload_number);
-		// die;
-		
-		
 	} else {
 		$upload_number = "error";
 	}
@@ -658,50 +618,19 @@ function check_data_claim($data) {
 
 
 function check_data_claim_treaty($data) {
-	$database = new Koneksi;	
-	$sqlQuery = "select count(*) from tbl_claim_check_result where file_name ='$data[file_name]' ";																		
-	$dataQuery = $database->db_fetch_obj($sqlQuery);
-
-	// echo "<pre>";
-	// print_r($dataQuery); die;
-	// (bool)$dataQuery['data']['count']
-	
-	if( $dataQuery['data']['count'] > 0 ){
-		echo json_encode((int)$dataQuery['data']['count']);
-	} else {
-		proses_data_claim_treaty($data);
-	}
-}
-
-function proses_data_claim_treaty($data) {
-
-	
-								// formdata2.append("file_name", file_name );
-								// formdata2.append("ceding_name", ceding_name );
-								// formdata2.append("treaty_name", treaty_name);
-								// formdata2.append("upload_number", upload_number);
-								
-		// echo "<pre>";
-		// print_r($data); die;
 	
 	$database = new Koneksi;
 	// $sqlQuery = "select max(upload_number) as upload_number from tbl_claim_data ";		
-	// $sqlQuery = "select upload_number from tbl_claim_data  where ceding_name ='$data[ceding_name]' and treaty_name ='$data[treaty_name]' ";																		
-	// $dataQuery = $database->db_fetch_obj($sqlQuery);
-	$fileName = $data['file_name'];
-	$path ="";
+	$sqlQuery = "select upload_number from tbl_claim_data  where ceding_name ='$data[ceding_name]' and treaty_name ='$data[treaty_name]' ";																		
+	$dataQuery = $database->db_fetch_obj($sqlQuery);
 
-	// if( $dataQuery['success'] && $dataQuery['status']==200 ){
+
+	if( $dataQuery['success'] && $dataQuery['status']==200 ){
 		
-		$upload_nbr = $data['upload_number']; 
-		// $sqlQuery_claim = "select * from tbl_claim_data where upload_number ='$data[upload_number]' ";	
-		$sqlQuery_claim = "select * from tbl_claim_data a where a.file_name ='$data[file_name]' and a.upload_number='$data[upload_number]' ";
+		$upload_nbr = $dataQuery['data']['upload_number'] ;
+		$sqlQuery_claim = "select * from tbl_claim_data where upload_number ='$upload_nbr' ";										
 		$dataQuery_claim = $database->db_fetch_array($sqlQuery_claim);
 		$data_claim = $dataQuery_claim['data'];
-		
-		echo "<pre>";
-		echo "data_claimxx= "; print_r($data_claim);
-		// die;
 
 		foreach( $data_claim as $key=>$value ) {
 
@@ -718,7 +647,7 @@ function proses_data_claim_treaty($data) {
 			$birth_date_claim = $value['birth_date'];
 			$stnc = $value['stnc'];
 
-			
+			$database = new Koneksi;
 			// $sq = "select * from tbl_setting_uw tsu where ceding_name ='$data[ceding_name]' and treaty_name ='$data[treaty_name]' ";										
 			// $dq = $database->db_fetch_obj($sq);
 		
@@ -732,92 +661,73 @@ function proses_data_claim_treaty($data) {
 
 			// $name_of_insured = $data_insured_obj['data']['name_of_insured'];
 
-			$data_insured = "select 
-							name_of_insured,
-							policy_no,
-							certificate_no,
-							inception_date,
-							sum_insured_orc 
-			from tbl_insured  where name_of_insured = '$insured_name_claim' 
-			and birth_of_date ='$birth_date_claim' ";
+        // if ($dq['success'] && $dq['status']==200) {
+			// $dt = $dq['data'];
 
+			// if( $dt['insured_name'] ) {
+				$sqlQuery_name_of_insured = "select name_of_insured from tbl_insured where  name_of_insured = '$insured_name_claim' and birth_of_date ='$birth_date_claim' limit 1 ";										
+				// $sqlQuery_name_of_insured = "select * from tbl_insured ti where ti.name_of_insured = '$insured_name_claim' ti.certificate_no = '$certificate_no_claim' and birth_of_date ='$birth_date_claim' ";
+				$dataQuery_name_of_insured = $database->db_fetch_obj($sqlQuery_name_of_insured);
+				$name_of_insured = $dataQuery_name_of_insured['data']['name_of_insured'];
+	
+			// }
 
-			// $sqlQuery_name_of_insured = "select name_of_insured from tbl_insured where  name_of_insured = '$insured_name_claim' and birth_of_date ='$birth_date_claim' limit 1 ";										
-			$dataQuery_insured = $database->db_fetch_obj($data_insured);
+			// if( $dt['policy_no'] ) {
+				$sqlQuery_policy_no = "select policy_no from tbl_insured where  name_of_insured = '$insured_name_claim' and birth_of_date ='$birth_date_claim' limit 1 ";
+				$dataQuery_policy_no = $database->db_fetch_obj($sqlQuery_policy_no);
+				$policy_no_insured = $dataQuery_policy_no['data']['policy_no'];
+	
+			// }
 
-			// echo "<pre>";
-			// print_r( $dataQuery_insured );
-			// die;
+			// if( $dt['certificate_no'] ) {
+				$sqlQuery_certificate_no = "select certificate_no from tbl_insured where  name_of_insured = '$insured_name_claim' and birth_of_date ='$birth_date_claim'  limit 1 ";
+				$dataQuery_certificate_no = $database->db_fetch_obj($sqlQuery_certificate_no);
+				$certificate_no_insured = $dataQuery_certificate_no['data']['certificate_no'];
+	
+			// }
+
+			// if( $dt['inception_date'] ) {
+				$sqlQuery_inception_date = "select inception_date from tbl_insured where  name_of_insured = '$insured_name_claim' and birth_of_date ='$birth_date_claim'  limit 1 ";
+				$dataQuery_inception_date = $database->db_fetch_obj($sqlQuery_inception_date);
+				$inception_date_insured = $dataQuery_inception_date['data']['inception_date'];
+	
+			// }
+
 			
-			$name_of_insured = $dataQuery_insured['data']['name_of_insured'];
-			$policy_no_insured = $dataQuery_insured['data']['policy_no'];
-			$certificate_no_insured = $dataQuery_insured['data']['certificate_no'];
-			$inception_date_insured = $dataQuery_insured['data']['inception_date'];
-			$sum_insured_orc = $dataQuery_insured['data']['sum_insured_orc'];
-
-			// $sqlQuery_policy_no = "select policy_no from tbl_insured where  name_of_insured = '$insured_name_claim' and birth_of_date ='$birth_date_claim' limit 1 ";
-			// $dataQuery_policy_no = $database->db_fetch_obj($sqlQuery_policy_no);
-			// $policy_no_insured = $dataQuery_policy_no['data']['policy_no'];
-			
-			// $sqlQuery_certificate_no = "select certificate_no from tbl_insured where  name_of_insured = '$insured_name_claim' and birth_of_date ='$birth_date_claim'  limit 1 ";
-			// $dataQuery_certificate_no = $database->db_fetch_obj($sqlQuery_certificate_no);
-			// $certificate_no_insured = $dataQuery_certificate_no['data']['certificate_no'];
-			
-			// $sqlQuery_inception_date = "select inception_date from tbl_insured where  name_of_insured = '$insured_name_claim' and birth_of_date ='$birth_date_claim'  limit 1 ";
-			// $dataQuery_inception_date = $database->db_fetch_obj($sqlQuery_inception_date);
-			// $inception_date_insured = $dataQuery_inception_date['data']['inception_date'];
+	
 			
 			/* PLCedantSI */
-			// $sqlQuery_sum_insured_orc = "select sum_insured_orc from tbl_insured where  name_of_insured = '$insured_name_claim' and birth_of_date ='$birth_date_claim'  limit 1 ";										
-			// $dataQuery_sum_insured_orc = $database->db_fetch_obj($sqlQuery_sum_insured_orc);
-			// $sum_insured_orc = $dataQuery_sum_insured_orc['data']['sum_insured_orc'];
+			$sqlQuery_sum_insured_orc = "select sum_insured_orc from tbl_insured where  name_of_insured = '$insured_name_claim' and birth_of_date ='$birth_date_claim'  limit 1 ";										
+			$dataQuery_sum_insured_orc = $database->db_fetch_obj($sqlQuery_sum_insured_orc);
+			$sum_insured_orc = $dataQuery_sum_insured_orc['data']['sum_insured_orc'];
 
+
+			$sql_paymentdate_vs_submitdate_days = "select a.sent_to_reinsr_date - a.event_date AS days1 from tbl_claim_data a where a.certificate_no ='$certificate_no_claim' and a.name_of_insured = '$insured_name_claim' and a.birth_of_date ='$birth_date_claim' ";
+			$dt_sql_paymentdate_vs_submitdate_days = $database->db_fetch_obj( $sql_paymentdate_vs_submitdate_days );
+			$paymentdate_vs_submitdate_days = $dt_sql_paymentdate_vs_submitdate_days['data']['days1'];
+			
+
+			$sql_pl_cedant_rate = "select cedant_rate from tbl_claim_data a where a.certificate_no ='$certificate_no_claim' and a.name_of_insured = '$insured_name_claim' and a.birth_of_date ='$birth_date_claim' ";
+			$dt_sql_pl_cedant_rate = $database->db_fetch_obj( $sql_pl_cedant_rate );
+			$pl_cedant_rate = $dt_sql_pl_cedant_rate['data']['cedant_rate'];
+
+			$sql_tree_si = "select tre_si from tbl_claim_data a where a.certificate_no ='$certificate_no_claim' and a.name_of_insured = '$insured_name_claim' and a.birth_of_date ='$birth_date_claim' ";
+			$dt_sql_tree_si = $database->db_fetch_obj( $sql_tree_si );
+			$pl_tree_si = $dt_sql_tree_si['data']['tre_si'];
+
+			$sql_paid_amt = "select paid_amt from tbl_claim_data a where a.certificate_no ='$certificate_no_claim' and a.name_of_insured = '$insured_name_claim' and a.birth_of_date ='$birth_date_claim' ";
+			$dt_sql_paid_amt = $database->db_fetch_obj( $sql_paid_amt );
+			$paid_amt = $dt_sql_paid_amt['data']['paid_amt'];
+
+			$sql_tre_share_amt = "select tre_share_amt from tbl_claim_data a where a.certificate_no ='$certificate_no_claim' and a.name_of_insured = '$insured_name_claim' and a.birth_of_date ='$birth_date_claim' ";
+			$dt_sql_tre_share_amt = $database->db_fetch_obj( $sql_tre_share_amt );
+			$tre_share_amt = $dt_sql_tre_share_amt['data']['tre_share_amt'];
 
 			
-			$sql_claim_data= "SELECT
-								a.sent_to_reinsr_date - a.event_date AS days1 ,
-								a.cedant_rate,
-								a.tre_si,
-								a.paid_amt ,
-								a.tre_share_amt 
-							  from tbl_claim_data a 
-							  where  
-								a.certificate_no ='$certificate_no_claim' and
-								a.insured_name = '$insured_name_claim' 
-								and a.birth_date = '$birth_date_claim' "; 
-			$dt_sql_claim_data = $database->db_fetch_obj( $sql_claim_data );
-			
-			// echo "<pre>";
-			// echo "dt_sql_claim_data= "; print_r( $dt_sql_claim_data );
-			// die;
-
-			$paymentdate_vs_submitdate_days = $dt_sql_claim_data['data']['days1'];
-			$pl_cedant_rate = $dt_sql_claim_data['data']['cedant_rate'];
-			$pl_tree_si = $dt_sql_claim_data['data']['tre_si'];
-			$paid_amt = $dt_sql_claim_data['data']['paid_amt'];
-			$tre_share_amt = $dt_sql_claim_data['data']['tre_share_amt'];
-
-			// $sql_paymentdate_vs_submitdate_days = "select a.sent_to_reinsr_date - a.event_date AS days1 from tbl_claim_data a where a.certificate_no ='$certificate_no_claim' and a.name_of_insured = '$insured_name_claim' and a.birth_of_date ='$birth_date_claim' ";
-			// $dt_sql_paymentdate_vs_submitdate_days = $database->db_fetch_obj( $sql_paymentdate_vs_submitdate_days );
-			// $paymentdate_vs_submitdate_days = $dt_sql_paymentdate_vs_submitdate_days['data']['days1'];
-
-			// $sql_pl_cedant_rate = "select cedant_rate from tbl_claim_data a where a.certificate_no ='$certificate_no_claim' and a.name_of_insured = '$insured_name_claim' and a.birth_of_date ='$birth_date_claim' ";
-			// $dt_sql_pl_cedant_rate = $database->db_fetch_obj( $sql_pl_cedant_rate );
-			// $pl_cedant_rate = $dt_sql_pl_cedant_rate['data']['cedant_rate'];
-
-			// $sql_tree_si = "select tre_si from tbl_claim_data a where a.certificate_no ='$certificate_no_claim' and a.name_of_insured = '$insured_name_claim' and a.birth_of_date ='$birth_date_claim' ";
-			// $dt_sql_tree_si = $database->db_fetch_obj( $sql_tree_si );
-			// $pl_tree_si = $dt_sql_tree_si['data']['tre_si'];
-
-			// $sql_paid_amt = "select paid_amt from tbl_claim_data a where a.certificate_no ='$certificate_no_claim' and a.name_of_insured = '$insured_name_claim' and a.birth_of_date ='$birth_date_claim' ";
-			// $dt_sql_paid_amt = $database->db_fetch_obj( $sql_paid_amt );
-			// $paid_amt = $dt_sql_paid_amt['data']['paid_amt'];
-
-			// $sql_tre_share_amt = "select tre_share_amt from tbl_claim_data a where a.certificate_no ='$certificate_no_claim' and a.name_of_insured = '$insured_name_claim' and a.birth_of_date ='$birth_date_claim' ";
-			// $dt_sql_tre_share_amt = $database->db_fetch_obj( $sql_tre_share_amt );
-			// $tre_share_amt = $dt_sql_tre_share_amt['data']['tre_share_amt'];
-
-			
+			// echo "submit_date_claim= "; print_r( $submit_date_claim); echo "<br>";
+			// echo "sql_paymentdate_vs_submitdate_days= "; print_r( $sql_paymentdate_vs_submitdate_days); echo "<br>";
+			// echo "paymentdate_vs_submitdate_days= "; print_r( $paymentdate_vs_submitdate_days); echo "<br>";
+			// die; 
 
 			$submission_amt_insured = $sum_insured_orc;
 			$stnc_insured = $stnc;
@@ -909,6 +819,9 @@ function proses_data_claim_treaty($data) {
 			$tre_share_amt = !empty($tre_share_amt) ? "$tre_share_amt" : 0;
 			
 			
+			
+			
+
 			if( (int)$paymentdate_vs_submitdate_days > 180 ) {
 				$result_paymentdate_vs_submitdate_days_stts = "Reject"; 
 			} else {
@@ -987,8 +900,7 @@ function proses_data_claim_treaty($data) {
 							result_overall_clm_status,
 							remark,
 							file_name,
-							path_file,
-							validasi_date
+							path_file
 							)
 						VALUES(
 							'$insured_name_claim', 
@@ -1020,9 +932,8 @@ function proses_data_claim_treaty($data) {
 							'$Claim_Paid_TRE_Share_cedantVerVsTREver', 
 							'$result_overall_claim_stts', 
 							NULL,
-							'$fileName',
-							'$path',
-							'now()'
+							'',
+							''
 							) ;";
 
 			// echo "<pre>";
@@ -1036,12 +947,11 @@ function proses_data_claim_treaty($data) {
 		}
 		// die;
 
-		// echo json_encode( $dataQuery_q_insert);
-		echo json_encode(TRUE);
+		echo json_encode( $dataQuery_q_insert);
 		
-	// } else {
-		// $upload_number = "error";
-	// }
+	} else {
+		$upload_number = "error";
+	}
 	
 }
 
@@ -1149,40 +1059,6 @@ function validasi_login($data){
 
 	$username = $data['data']['username'];
 	$password = $data['data']['password'];
-
-	// echo "username= "; print_r($data['data']['username']); echo "\r\n";
-	// echo "password= "; print_r($data['data']['password']); echo "\r\n";
-	// die;
-
-	if( !empty($username) and !empty($password) ) {
-
-			$database = new Koneksi; 
-			$sqlQuery = "select * FROM tbl_users_claim WHERE username='$username' and password=md5('$password') ";										
-			$dataQuery = $database->db_fetch_obj($sqlQuery);
-
-			
-			if( $dataQuery['success'] && $dataQuery['status']==200 && !empty($dataQuery['data']) ){
-				if( md5($password) == $dataQuery['data']['password'] ) {
-					session_start();
-					$_SESSION["username"] = $dataQuery['data']['username'];
-					// header("Location: dashboard");
-					echo json_encode($dataQuery['data']['username']);
-				} else {
-					echo json_encode("different_passwd");
-				}
-			} else {
-				echo json_encode("empty");
-			}
-		}
-}
-
-
-
-
-function list_insured($data){
-
-	$upload_number = $data['upload_number'];
-	$file_name = $data['file_name'];
 
 	// echo "username= "; print_r($data['data']['username']); echo "\r\n";
 	// echo "password= "; print_r($data['data']['password']); echo "\r\n";

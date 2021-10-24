@@ -15,8 +15,8 @@ $db = new koneksi();
 // print_r( $dataQuery );
 // die;
 
-// $sql = "select count(*) from tbl_insured ";
-// $cc= $db->db_row_count($sql);
+$sql = "select id from tbl_insured order by id ";
+$cc= $db->db_row_count($sql);
 
  // print_r( $cc);
  // die;
@@ -37,13 +37,8 @@ $stro = $query.$order." LIMIT ".$limit." OFFSET ".$start;
 $sql_data = $db->db_fetch_array($query.$order." LIMIT ".$limit." OFFSET ".$start); 
 $sql_filter = $db->db_row_count($query); 
 
-$sqlCount = "select count(*) from tbl_insured ";
-$dataCount= $db->db_fetch_obj($sqlCount);
-
 // echo "<pre>";
-// echo "dataCount= ";
-// print_r( $dataCount['data']['count'] );
-// die;
+// print_r( $sql_data['data'] );
 
 
 // $index = 0;
@@ -80,14 +75,11 @@ foreach($result as $d){
 
 $callback = array(
     'draw'=>$_POST['draw'], 
-    'recordsTotal'=>$dataCount['data']['count'], 
-    // 'recordsFiltered'=>$sql_filter['data'], 
-    'recordsFiltered'=>$dataCount['data']['count'], 
+    'recordsTotal'=>$cc['data'], 
+    'recordsFiltered'=>$sql_filter['data'], 
     'data'=>$data
 
 );
-
-
 
 // echo "<pre>";
 // print_r( $callback );
