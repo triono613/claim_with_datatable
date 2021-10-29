@@ -5,7 +5,6 @@
 		<!-- Required meta tags -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
 		<!-- Bootstrap CSS -->
 		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 		<link rel="stylesheet" href="assets/DataTables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css">
@@ -16,24 +15,34 @@
 	    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 	    <link rel="stylesheet" href="dist/css/adminlte.min.css">
 	    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+
+
+
+
+    
+    <!-- <link href="https://cdn.datatables.net/select/1.2.1/css/select.dataTables.min.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" /> -->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" />
+
 		
-
       <title>data_claim</title>
-
       <style>
         body {
         background: #007bff;
         background: linear-gradient(to right, #0062E6, #33AEFF);
         }
-
         .btn-login {
         font-size: 0.9rem;
         letter-spacing: 0.05rem;
         padding: 0.75rem 1rem;
         }
-
         
-
         .centered {
           position: fixed;
           top: 50%;
@@ -45,7 +54,6 @@
 <body class="hold-transition sidebar-mini">	
 	
  
-
          
 <div class="container">
     <div class="row">
@@ -66,7 +74,6 @@
               <label for="floatingPassword">Password</label>
                 <input id="password" type="password" name="password" style="display: ;" class="form-control" />
               </div>
-
               <div class="d-grid">
                   <button type="button" name="check_datax" id="check_datax" class="btn btn-primary btn-login text-uppercase fw-bold">
                   Sign in </button>
@@ -83,25 +90,19 @@
                   <i class="fab fa-facebook-f me-2"></i> Sign in with Facebook
                 </button> -->
               </div>
-
-
-
             </form>
           </div>
         </div>
       </div>
     </div>
   
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
-
     <!-- Datatables -->
     <script src="assets/DataTables/DataTables-1.10.18/js/jquery.dataTables.min.js"></script>
     <script src="assets/DataTables/DataTables-1.10.18/js/dataTables.bootstrap4.min.js"></script>
-
     <script src="assets/DataTables/Buttons-1.5.6/js/dataTables.buttons.min.js"></script>
     <script src="assets/DataTables/Buttons-1.5.6/js/buttons.bootstrap4.min.js"></script>
     <script src="assets/DataTables/JSZip-2.5.0/jszip.min.js"></script>
@@ -114,14 +115,15 @@
 	
 	<script src="dist/js/adminlte.js"></script>
 	<script src="plugins/chart.js/Chart.min.js"></script>
-
 	
+  
+<!--     
+  <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>-->
+  <script src="https://cdn.datatables.net/select/1.2.1/js/dataTables.select.min.js"></script> 
 	
 			
-
     <script>
       $(document).ready(function() {
-
       $('#check_datax').on('click', function() {
 						$("#wait").show();
 						// event.preventDefault();       
@@ -144,11 +146,7 @@
 									} 
 							}); 
 						}); 
-
-
-
       });
     </script>
 </body>
-
 </html>

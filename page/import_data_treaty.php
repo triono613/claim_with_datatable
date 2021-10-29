@@ -29,17 +29,14 @@ if(!strlen(trim($_SESSION['username']))) {
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />    
 		<link href='https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
 		<link href='https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css' rel='stylesheet' type='text/css'>
-
 		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"/>
 		
-		
+		<!-- <link href="https://cdn.datatables.net/select/1.2.1/css/select.dataTables.min.css" rel="stylesheet" type="text/css" /> -->
+		<!-- <link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" /> -->
+    
 
-		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-		<!--[if lt IE 9]>
-		  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-		  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
+    
+
 
 		<!-- Style untuk Loading -->
 		<style>
@@ -91,6 +88,21 @@ if(!strlen(trim($_SESSION['username']))) {
 			.row_selected td {
     			background-color: black !important; /* Add !important to make sure override datables base styles */
  			}
+
+			 @media screen and (min-width: 676px) {
+				.modal-dialog {
+				max-width: 900px; /* New width for default modal */
+				}
+			}
+
+			table.dataTable tr th.select-checkbox.selected::after {
+				content: "✔";
+				margin-top: -11px;
+				margin-left: -4px;
+				text-align: center;
+				text-shadow: rgb(176, 190, 217) 1px 1px, rgb(176, 190, 217) -1px -1px, rgb(176, 190, 217) 1px -1px, rgb(176, 190, 217) -1px 1px;
+			}
+
 		</style>
 
 		<!-- Load File jquery.min.js yang ada difolder js -->
@@ -141,7 +153,7 @@ if(!strlen(trim($_SESSION['username']))) {
 </div>
 <div class="col-xs-12">
   <div class="form-group">
-    <button id="upload" type="button" name="upload" class="btn btn-primary buttons-csv buttons-html5 btn-sm pull-left">
+    <button id="upload" type="button" name="upload" class="dt-button buttons-csv buttons-html5 btn-sm pull-left">
 		<!-- <span class="glyphicon glyphicon-eye-open"></span> -->
 		 Upload
 	</button>
@@ -273,11 +285,17 @@ if(!strlen(trim($_SESSION['username']))) {
 		<div class="position-relative ">
 		<div class="table-responsive">
         <p><h1></h1></p>
+		<div>
+			<input type="checkbox" id="selectAll" class="selectAll" name="selectAll" value="all" />  Pilih Semua
+		</div>
+		<br>
         <div >
             <table id='tbl_claim_check_result_detail' class='table table-bordered'>
 								<thead>
 								<tr>
+									<th></th>
 									<th>No.</th> 
+									<th>Id.</th>
 									<th>claim_insd_name</th>
 									<th>pl_insd_name</th>
 									<th>result_insd_name</th>
@@ -313,20 +331,207 @@ if(!strlen(trim($_SESSION['username']))) {
 								</tr>
 								</thead>
                  
-            </table>
-        </div>
-		</div>
-   </div>
+            			</table>
+        			</div>
+				</div>
+   			</div>
 		</fieldset>
-</div>
+		</div>
 
+		<fieldset class="scheduler-border">
+		<legend class="scheduler-border">Data setelah Validasi </legend>		
+		<div class="position-relative ">
+		<div class="table-responsive">
+        <p><h1></h1></p>
+		<div>
+			<input type="checkbox" id="selectAll" class="selectAll" name="selectAll" value="all" />  Pilih Semua
+		</div>
+		<br>
+        <div >
+            <table id='tbl_settle' class='table table-bordered'>
+								<thead>
+								<tr>
+									<th></th>
+									<th>No.</th> 
+									<th>Id.</th>
+									<th>claim_insd_name</th>
+									<th>pl_insd_name</th>
+									<th>result_insd_name</th>
+									<th>claim_policy_no</th>
+									<th>pl_policy_no</th>
+									<th>result_policy_no</th>
+									<th>claim_certificate_no</th>
+									<th>pl_certificate_no</th>
+									<th>result_certificate_no</th>
+									<th>claim_effective_date</th>
+									<th>pl_inception_date</th>
+									<th>result_efective_inception</th>
+									<th>claim_submit</th>
+									<th>pl_sum_insd</th>
+									<th>result_claim_submit_pl_sum_insd</th>
+									<th>claim_event</th>
+									<th>stnc</th>
+									<th>result_claim_event_stnc</th>
+									<th>payment_date_submit_date_days</th>
+									<th>result_payment_date_submit_date_status</th>
+									<th>pl_cedant_ret</th>
+									<th>pl_tre</th>
+									<th>claim_paid_by_cedant</th>
+									<th>claim_paid_tre_share_calc_by_cedant</th>
+									<th>claim_paid_tre_share_calc_by_tre</th>
+									<th>check_claim_tre_share_cedant_vs_tre</th>
+									<th>result_check_claim_tre_share_cedant_vs_tre</th>
+									<th>result_overall_clm_status</th>
+									<th>remark</th>
+									<th>file name</th>
+									<th>path file</th>
+									<th>tgl validasi</th> 
+								</tr>
+								</thead>
+                 
+            			</table>
+        			</div>
+				</div>
+   			</div>
+		</fieldset>
 
 
 		<div id="wait" class="centered" >
 		<img alt="" src="css/Spinner.gif" class='preloading_image' id="actual_image1-pre">
         </div>
 		
+<div class="modal" id="DescModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
+		<div class="modal-header">
+			<h4 class="modal-title"><span id="detail_name"></span></h4>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+		</div>
+            <div class="modal-body">
+            <div class="row dataTable">
+				 <div class="col-md-12">
+            	 </div>
+			<form id="form_settle">
+								<div class="form-horizontal">
+									<div class="control-group form-inline">
+										<label for="name" class="control-label col-xs-8">insured name #</label>
+										<div class="controls col-xs-4">
+												<select name="result_insd_name" id="result_insd_name" class="form-control" style="width:200px" >
+													<option value="Ok"> Ok </option>
+													<option value="NotYet"> NotYet </option>
+													<option value="Check"> Check </option>	
+												</select>
+										</div>
+									</div>
+						
+									<div class="control-group form-inline">
+										<label for="name" class="control-label col-xs-8">policy no. #</label>
+										<div class="controls col-xs-4">
+												<select name="result_policy_no" id="result_policy_no" class="form-control" style="width:200px" >
+													<option value="Ok"> Ok </option>
+													<option value="NotYet"> NotYet </option>
+													<option value="Check"> Check </option>	
+												</select>
+										</div>
+									</div>
+							
+									<div class="control-group form-inline">
+										<label for="name" class="control-label col-xs-8">certificate no. #</label>
+										<div class="controls col-xs-4">
+												<select name="result_certificate_no" id="result_certificate_no" class="form-control" style="width:200px" >
+													<option value="Ok"> Ok </option>
+													<option value="NotYet"> NotYet </option>
+													<option value="Check"> Check </option>	
+												</select>
+										</div>
+									</div>
+						
+									<div class="control-group form-inline">
+										<label for="name" class="control-label col-xs-8">efective vs inception #</label>
+										<div class="controls col-xs-4">
+												<select name="result_efective_inception" id="result_efective_inception" class="form-control" style="width:200px" >
+													<option value="Ok"> Ok </option>
+													<option value="NotYet"> NotYet </option>
+													<option value="Check"> Check </option>	
+												</select>
+										</div>
+									</div>
+                      
+									<div class="control-group form-inline">
+										<label for="name" class="control-label col-xs-8">claim submit vs pl sum insured #</label>
+										<div class="controls col-xs-4">
+												<select name="result_claim_submit_pl_sum_insd" id="result_claim_submit_pl_sum_insd" class="form-control" style="width:200px" >
+													<option value="Ok"> Ok </option>
+													<option value="NotYet"> NotYet </option>
+													<option value="Check"> Check </option>	
+												</select>
+										</div>
+									</div>
+	
+									<div class="control-group form-inline">
+										<label for="name" class="control-label col-xs-8">claim event vs stnc #</label>
+										<div class="controls col-xs-4">
+												<select name="result_claim_event_stnc" id="result_claim_event_stnc" class="form-control" style="width:200px" >
+													<option value="Ok"> Ok </option>
+													<option value="NotYet"> NotYet </option>
+													<option value="Check"> Check </option>	
+												</select>
+										</div>
+									</div>
+									
+									<div class="control-group form-inline">
+										<label for="name" class="control-label col-xs-8">payment date vs submit date days status #</label>
+										<div class="controls col-xs-4">
+												<select name="result_payment_date_submit_date_status" id="result_payment_date_submit_date_status" class="form-control" style="width:200px" >
+													<option value="Ok"> Ok </option>
+													<option value="NotYet"> NotYet </option>
+													<option value="Check"> Check </option>	
+												</select>
+										</div>
+									</div>
+									
+									<div class="control-group form-inline">
+										<label for="name" class="control-label col-xs-8">check claim tre share cedant vs tre #</label>
+										<div class="controls col-xs-4">
+												<select name="result_check_claim_tre_share_cedant_vs_tre" id="result_check_claim_tre_share_cedant_vs_tre" class="form-control" style="width:200px" >
+													<option value="Ok"> Ok </option>
+													<option value="NotYet"> NotYet </option>
+													<option value="Check"> Check </option>	
+												</select>
+										</div>
+									</div>
+									
+									<div class="control-group form-inline">
+										<label for="name" class="control-label col-xs-8">overall claim status #</label>
+										<div class="controls col-xs-4">
+												<select name="result_overall_clm_status" id="result_overall_clm_status" class="form-control" style="width:200px" >
+													<option value="Ok"> Ok </option>
+													<option value="NotYet"> NotYet </option>
+													<option value="Check"> Check </option>	
+												</select>
+										</div>
+									</div>				
+                                </div>
+								<br>
+								<div class="modal-footer">
+									<button type="button" id="btn_save_settle" name="btn_save_settle" class="dt-button " data-dismiss="modal">Simpan!</button>
+									<button type="button" data-dismiss="modal" class="dt-button">Tutup</button>
+								</div>
+						</form>
+                    
+            </div>
+            
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+
+		
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
@@ -339,9 +544,11 @@ if(!strlen(trim($_SESSION['username']))) {
 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/buttons.flash.min.js"></script>
 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/buttons.html5.min.js"></script>
 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/buttons.print.min.js"></script>
+<!--     
+<script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>-->
+<script src="https://cdn.datatables.net/select/1.2.1/js/dataTables.select.min.js"></script> 
 
-		
-		
+ 
 		<script>
 		var tabel = null;
 		var tbl_claim_check_result = null;
@@ -387,13 +594,13 @@ if(!strlen(trim($_SESSION['username']))) {
 							{
 								'data': null,
 								'render': function (data, type, row) {
-											return '<button class="btn btn-info btn-sm getx" id="' + row.file_name +'" >Detail</button>'
+											return '<button class="dt-button btn-sm getx" id="' + row.file_name +'" >Detail</button>'
 										}
 							},
 							{
 								'data': null,
 								'render': function (data, type, row) {
-											return '<button class="btn btn-info btn-sm getValidasiData" id="' + row.file_name +'" >Validasi Data</button>'
+											return '<button class="dt-button btn-sm getValidasiData" id="' + row.file_name +'" >Validasi Data</button>'
 										}
 							},
 		        ],
@@ -459,6 +666,7 @@ if(!strlen(trim($_SESSION['username']))) {
 				},
 				// rowId: 'id',
 				select: true,
+				// responsive: true,
                 pageLength: 5,
 		        "columns": [						
 							{ "data": "no" },
@@ -525,7 +733,7 @@ if(!strlen(trim($_SESSION['username']))) {
 							{
 								'data': null,
 								'render': function (data, type, row) {
-											return '<button class="btn btn-info btn-sm getDtRes" id="' + row.file_name +'" >Detail</button>'
+											return '<button class="dt-button btn-sm getDtRes" id="' + row.file_name +'" >Detail</button>'
 										}
 							},
 							
@@ -545,15 +753,12 @@ if(!strlen(trim($_SESSION['username']))) {
 					  var validasi_date = null;
 					  detail_check_result_validasi(file_name,validasi_date,validasi_number);
 				});
-			
 		}
 		
 				
-				
-				
-
+		var empDataTable;
 	    
-		function detail_check_result_validasi(file_name,validasi_date,validasi_number) {		
+		function detail_check_result_validasi(file_name,validasi_date,validasi_number) {	
 			
 			$("#tbl_claim_check_result_detail").dataTable().fnDestroy();
 		    empDataTable = $('#tbl_claim_check_result_detail').DataTable({
@@ -568,6 +773,7 @@ if(!strlen(trim($_SESSION['username']))) {
 				// buttons: [ 'csv','excel' ],
 				buttons: [
 					{
+					className:'dt-button',
 					extend: 'excel',
 					text : 'Export to Excel',
 					filename: function(){
@@ -582,6 +788,7 @@ if(!strlen(trim($_SESSION['username']))) {
 								}
 					},
 					{
+					className:'dt-button',
 					extend: 'csv',
 					text : 'Export to CSV',
 					filename: function(){
@@ -595,6 +802,14 @@ if(!strlen(trim($_SESSION['username']))) {
 									return 'csv_' + year+'-'+month+'-'+day+'-'+hours+'-'+minutes+'-'+ms;
 								}
 					},
+					{
+					// extend: 'copyHtml5',
+					className:'dt-button',
+					text: 'Generate Data Settle',
+					attr:  {
+							id: 'btn_generate_settle'
+						}
+					},	
 				],
                 'processing': true,
                 'serverSide': true,
@@ -608,11 +823,21 @@ if(!strlen(trim($_SESSION['username']))) {
 						validasi_number:validasi_number
 						}
                 },
-				
+				// responsive: true,
+    			// altEditor: true,   
+				// scrollY:        "300px",
+				// scrollX:        true,
+				// scrollCollapse: true,  
                 pageLength: 10000,
-				"autoWidth": false, 
-                'columns': [ 
+                'columns': [  
+							{
+								data: null, 
+								defaultContent: '<unout type="checkbox" class="" />',
+								className: 'select-checkbox',
+								orderable: false
+							},
 							{ "data":"no" ,"title": "No.","width":"50%"},
+							{ "data":"id" ,"title": "id","visible": false},
 							{ "data":"claim_insd_name","title": "Claim Insd Name","width":"100%"},
 							{ "data":"pl_insd_name","title": "PL Insd Name",},
 							{ "data":"result_insd_name", "title": "Insd Name",}, 
@@ -645,12 +870,347 @@ if(!strlen(trim($_SESSION['username']))) {
 							{ "data":"file_name", "title": "nama file",}, 
 							{ "data":"path_file", "title": "path file",}, 
 							{ "data":"validasi_date", "title": "tgl validasi",}
+							
 					],
+					'rowCallback': function(row, data, index){
+						
+						data['result_insd_name'] == "Ok" ? $(row).find('td:eq(4)').css('color', 'green') : $(row).find('td:eq(4)').css('color', 'red');
+						data['result_policy_no'] == "Ok" ? $(row).find('td:eq(7)').css('color', 'green') : $(row).find('td:eq(7)').css('color', 'red');
+						data['result_certificate_no'] == "Ok" ? $(row).find('td:eq(10)').css('color', 'green') : $(row).find('td:eq(10)').css('color', 'red');
+						data['result_efective_inception'] == "Ok" ? $(row).find('td:eq(13)').css('color', 'green') : $(row).find('td:eq(13)').css('color', 'red');
+						data['result_claim_submit_pl_sum_insd'] == "Ok" ? $(row).find('td:eq(16)').css('color', 'green') : $(row).find('td:eq(16)').css('color', 'red');
+						data['result_claim_event_stnc'] == "Ok" ? $(row).find('td:eq(19)').css('color', 'green') : $(row).find('td:eq(19)').css('color', 'red');
+						data['result_payment_date_submit_date_status'] == "Ok" ? $(row).find('td:eq(21)').css('color', 'green') : $(row).find('td:eq(21)').css('color', 'red');
+						data['result_check_claim_tre_share_cedant_vs_tre'] == "Ok" ? $(row).find('td:eq(28)').css('color', 'green') : $(row).find('td:eq(28)').css('color', 'red');
+						data['result_overall_clm_status'] == "Ok" ? $(row).find('td:eq(29)').css('color', 'green') : $(row).find('td:eq(29)').css('color', 'red');
+						
+					},
+					// "columnDefs": [
+					// 	{
+					// 		"targets": [ 2 ],
+					// 		"visible": false,
+					// 		"searchable": false
+					// 	},
+					// ],
+					orderable: false,
+					columnDefs: [
+						{
+								orderable: true,
+							    className: 'select-checkbox', 
+								targets: 0,
+								checkboxes: {
+									'selectRow': true
+								}
+							}],
+						select: {
+								style: 'multi',
+								// selector: 'td:first-child'
+							}, 
+							order: [
+								[1, 'asc']
+							],
 				});
+
 				$('#tbl_claim_check_result_detail').DataTable().ajax.reload(); 
-			}
+					var  DT1 = $('#tbl_claim_check_result_detail').DataTable();
+					$(".selectAll").on( "click", function(e) {
+						if ($(this).is( ":checked" )) {
+						DT1.rows({page:'current'}  ).select();   
+						var data = DT1.rows('.selected').data();
+						console.log('data= ', data);
+						
+					} else {
+						DT1.rows({page:'current'}  ).deselect(); 
+					}		
+				});
+
+
+			$('#tbl_claim_check_result_detail tbody').on('click', '.row-edit', function () {
+					  var fila = $(this).closest("tr");
+					  var data = empDataTable.row( fila ).data();
+					  console.log(data);
+					  console.log('claim_insd_name',data.claim_insd_name);
+					  
+					  $('#detail_name').html(data.claim_insd_name);
+
+					  switch(data.result_insd_name) {
+						case "Ok":
+							$('#result_insd_name').val("Ok");
+							break;
+						case "Check":
+							$('#result_insd_name').val("Check");
+							break;
+						default:
+							$('#result_insd_name').val("NotYet");
+							break;
+						}
+						
+						switch(data.result_policy_no) {
+						case "Ok":
+							$('#result_policy_no').val("Ok");
+							break;
+						case "Check":
+							$('#result_policy_no').val("Check");
+							break;
+						default:
+							$('#result_policy_no').val("NotYet");
+							break;
+						}
+
+						switch(data.result_certificate_no) {
+						case "Ok":
+							$('#result_certificate_no').val("Ok");
+							break;
+						case "Check":
+							$('#result_certificate_no').val("Check");
+							break;
+						default:
+							$('#result_certificate_no').val("NotYet");
+							break;
+
+						}
+						
+						switch(data.result_efective_inception) {
+						case "Ok":
+							$('#result_efective_inception').val("Ok");
+							break;
+						case "Check":
+							$('#result_efective_inception').val("Check");
+							break;
+						default:
+							$('#result_efective_inception').val("NotYet");
+							break;
+						}
+
+						switch(data.result_claim_submit_pl_sum_insd) {
+						case "Ok":
+							$('#result_claim_submit_pl_sum_insd').val("Ok");
+							break;
+						case "Check":
+							$('#result_claim_submit_pl_sum_insd').val("Check");
+							break;
+						default:
+							$('#result_claim_submit_pl_sum_insd').val("NotYet");
+							break;
+						}
+
+						switch(data.result_claim_event_stnc) {
+						case "Ok":
+							$('#result_claim_event_stnc').val("Ok");
+							break;
+						case "Check":
+							$('#result_claim_event_stnc').val("Check");
+							break;
+						default:
+							$('#result_claim_event_stnc').val("NotYet");
+							break;
+						}
+
+						switch(data.result_payment_date_submit_date_status) {
+						case "Ok":
+							$('#result_payment_date_submit_date_status').val("Ok");
+							break;
+						case "Check":
+							$('#result_payment_date_submit_date_status').val("Check");
+							break;
+						default:
+							$('#result_payment_date_submit_date_status').val("NotYet");
+							break;
+						}
+
+						switch(data.result_check_claim_tre_share_cedant_vs_tre) {
+						case "Ok":
+							$('#result_check_claim_tre_share_cedant_vs_tre').val("Ok");
+							break;
+						case "Check":
+							$('#result_check_claim_tre_share_cedant_vs_tre').val("Check");
+							break;
+						default:
+							$('#result_check_claim_tre_share_cedant_vs_tre').val("NotYet");
+							break;
+						}
+
+
+						switch(data.result_overall_clm_status) {
+						case "Ok":
+							$('#result_overall_clm_status').val("Ok");
+							break;
+						case "Check":
+							$('#result_overall_clm_status').val("Check");
+							break;
+						default:
+							$('#result_overall_clm_status').val("NotYet");
+							break;
+						}
+						$('#DescModal').modal("show");
+					//   detail_check_result_validasi(file_name,validasi_date,validasi_number);
+					
+
+				});
+
+			$('#tbl_claim_check_result_detail tbody').on('click', '.select-checkbox', function () {
+
+			});
+
+					
+			var tablex = $('#tbl_claim_check_result_detail').DataTable();
+			
+			$('#btn_generate_settle').click( function () {						
+				var arr = [], id = [], claim_insd_name = [], pl_insd_name = [], result_insd_name = [], claim_policy_no = [], pl_policy_no = [], result_policy_no = [], claim_certificate_no = [], pl_certificate_no = [], result_certificate_no = [], claim_effective_date = [], pl_inception_date = [], result_efective_inception = [], claim_submit = [], pl_sum_insd = [], result_claim_submit_pl_sum_insd = [], claim_event = [], stnc = [], result_claim_event_stnc = [], payment_date_submit_date_days = [], result_payment_date_submit_date_status = [], pl_cedant_ret = [], pl_tre = [], claim_paid_by_cedant = [], claim_paid_tre_share_calc_by_cedant = [], claim_paid_tre_share_calc_by_tre = [], check_claim_tre_share_cedant_vs_tre = [], result_check_claim_tre_share_cedant_vs_tre = [], result_overall_clm_status = [], remark = [], file_name = [], path_file = [], validasi_date = [];
+
+				console.log('tx= ',tablex.rows('.selected').data().length);
+
+				if( tablex.rows('.selected').data().length > 0 ) {  
+					$.map(tablex.rows('.selected').data(), function (value,i) {
+								id.push(value.id);
+								claim_insd_name.push(value.claim_insd_name);
+								pl_insd_name.push(value.pl_insd_name);
+								result_insd_name.push(value.result_insd_name);
+								claim_policy_no.push(value.claim_policy_no);
+								pl_policy_no.push(value.pl_policy_no);
+								result_policy_no.push(value.result_policy_no);
+								claim_certificate_no.push(value.claim_certificate_no);
+								pl_certificate_no.push(value.pl_certificate_no);
+								result_certificate_no.push(value.result_certificate_no);
+								claim_effective_date.push(value.claim_effective_date);
+								pl_inception_date.push(value.pl_inception_date);
+								result_efective_inception.push(value.result_efective_inception);
+								claim_submit.push(value.claim_submit);
+								pl_sum_insd.push(value.pl_sum_insd);
+								result_claim_submit_pl_sum_insd.push(value.result_claim_submit_pl_sum_insd); 
+								claim_event.push(value.claim_event); 
+								stnc.push(value.stnc); 
+								result_claim_event_stnc.push(value.result_claim_event_stnc); 
+								payment_date_submit_date_days.push(value.payment_date_submit_date_days); 
+								result_payment_date_submit_date_status.push(value.result_payment_date_submit_date_status); 
+								pl_cedant_ret.push(value.pl_cedant_ret); 
+								pl_tre.push(value.pl_tre); 
+								claim_paid_by_cedant.push(value.claim_paid_by_cedant); 
+								claim_paid_tre_share_calc_by_cedant.push(value.claim_paid_tre_share_calc_by_cedant); 
+								claim_paid_tre_share_calc_by_tre.push(value.claim_paid_tre_share_calc_by_tre); 
+								check_claim_tre_share_cedant_vs_tre.push(value.check_claim_tre_share_cedant_vs_tre); 
+								result_check_claim_tre_share_cedant_vs_tre.push(value.result_check_claim_tre_share_cedant_vs_tre); 
+								result_overall_clm_status.push(value.result_overall_clm_status); 
+								remark.push(value.remark); 
+								file_name.push(value.file_name); 
+								path_file.push(value.path_file); 
+								validasi_date.push(value.validasi_date); 
+					});
+					
+					var formdata = new FormData();
+					formdata.append("kode", "generate_settle");
+					formdata.append("id", id);
+					formdata.append("claim_insd_name", claim_insd_name);
+					formdata.append("pl_insd_name", pl_insd_name);
+					formdata.append("result_insd_name", result_insd_name );
+					formdata.append("claim_policy_no", claim_policy_no);
+					formdata.append("pl_policy_no", pl_policy_no);
+					formdata.append("result_policy_no", result_policy_no );
+					formdata.append("claim_certificate_no", claim_certificate_no);
+					formdata.append("pl_certificate_no", pl_certificate_no);
+					formdata.append("result_certificate_no", result_certificate_no );
+					formdata.append("claim_effective_date", claim_effective_date );
+					formdata.append("pl_inception_date", pl_inception_date );
+					formdata.append("result_efective_inception",result_efective_inception );
+					formdata.append("claim_submit", claim_submit );
+					formdata.append("pl_sum_insd", pl_sum_insd );
+					formdata.append("result_claim_submit_pl_sum_insd", result_claim_submit_pl_sum_insd );
+					formdata.append("claim_event", claim_event );
+					formdata.append("stnc", stnc );
+					formdata.append("result_claim_event_stnc", result_claim_event_stnc );
+					formdata.append("payment_date_submit_date_days", payment_date_submit_date_days );
+					formdata.append("result_payment_date_submit_date_status", result_payment_date_submit_date_status );
+					formdata.append("pl_cedant_ret", pl_cedant_ret );
+					formdata.append("pl_tre", pl_tre );
+					formdata.append("claim_paid_by_cedant", claim_paid_by_cedant );
+					formdata.append("claim_paid_tre_share_calc_by_cedant", claim_paid_tre_share_calc_by_cedant );
+					formdata.append("claim_paid_tre_share_calc_by_tre", claim_paid_tre_share_calc_by_tre );
+					formdata.append("check_claim_tre_share_cedant_vs_tre", check_claim_tre_share_cedant_vs_tre );
+					formdata.append("result_check_claim_tre_share_cedant_vs_tre", result_check_claim_tre_share_cedant_vs_tre );
+					formdata.append("result_overall_clm_status", result_overall_clm_status );
+					formdata.append("remark", remark );
+					formdata.append("file_name", file_name );
+					formdata.append("path_file", path_file );
+					formdata.append("validasi_date", validasi_date );
+								
+					$.ajax({
+							url: "list_data.php",
+							type: "POST",
+							data: formdata,
+							cache: false,
+							contentType: false,
+							processData: false,
+					success: function(result) {    
+							$("#wait").hide();   
+							console.log(' result= ', result ); 
+							if(result){
+								Swal.fire("Data Settle berhasil dibuat",'','success')			 
+							}else{
+								Swal.fire("Data Settle gagal dibuat",'','danger')			 
+							}						
+						}
+					});		
+				} else {
+						Swal.fire("Data Validasi belum dipilih ",'','info')			 
+				}			
+			});
+
+		}
 	
 	
+
+	
+		$('#btn_save_settle').on('click', function() {
+						$("#wait").show();
+
+						Swal.fire({
+								title: 'Edit Data! ',
+								text: "Edit data untuk Nama '"+$('#detail_name').html()+"' ",
+								icon: 'info',
+								showCancelButton: true,
+								confirmButtonColor: '#3085d6',
+								cancelButtonColor: '#d33',
+								// confirmButtonText: 'Yes, delete it!'
+							}).then((result) => {
+								if (result.isConfirmed) {
+
+								$("#wait").show();
+								var formdata = new FormData();
+								formdata.append("kode", "generate_settle");
+								formdata.append("result_insd_name", $('#result_insd_name').val().trim() );
+								formdata.append("result_policy_no", $('#result_policy_no').val().trim() );
+								formdata.append("result_certificate_no", $('#result_certificate_no').val().trim() );
+								formdata.append("result_efective_inception", $('#result_efective_inception').val().trim() );
+								formdata.append("result_claim_submit_pl_sum_insd", $('#result_claim_submit_pl_sum_insd').val().trim() );
+								formdata.append("result_claim_event_stnc", $('#result_claim_event_stnc').val().trim() );
+								formdata.append("result_payment_date_submit_date_status", $('#result_payment_date_submit_date_status').val().trim() );
+								formdata.append("result_check_claim_tre_share_cedant_vs_tre", $('#result_check_claim_tre_share_cedant_vs_tre').val().trim() );
+								formdata.append("result_overall_clm_status", $('#result_overall_clm_status').val().trim() );
+								
+								$.ajax({
+									url: "list_data.php",
+									type: "POST",
+									data: formdata,
+									cache: false,
+									contentType: false,
+									processData: false,
+								success: function(output) {    
+									$("#wait").hide();   
+										console.log(' output= ', output ); 
+										// var dt = parseInt(output);
+										// console.log('check_data ',dt);
+										// if( dt > 0){
+										// 	Swal.fire("File sudah ada",'','info')			 
+										// }else{
+										// 	Swal.fire("Data berhasil di Upload",'','success');
+										// } 																
+										$('#table-data-insured').DataTable().ajax.reload(); 
+										
+									}
+								})
+							}
+						})
+					});
 	
 		
 			$('#upload').on('click', function() {
@@ -858,6 +1418,8 @@ if(!strlen(trim($_SESSION['username']))) {
 						}); 
 
 		});
+
+		
 
 		</script>
 	</body>

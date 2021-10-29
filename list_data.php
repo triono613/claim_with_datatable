@@ -102,8 +102,16 @@ switch ($_POST['kode']) {
 						$stnc = !empty($stnc) ? "'$stnc'" : "NULL";
 						
 
+						
+					// echo "<pre>";
+					// echo "cedant_clm_nbr= ";print_r( $cedant_clm_nbr); echo "\n";
+					// die;
+
 						// if($certificate_no == "" && $nama == "" && $jenis_kelamin == "" && $telp == "" && $alamat == "")
 							// continue; // Lewat data pada baris ini (masuk ke looping selanjutnya / baris selanjutnya)
+
+// echo "key="; print_r($key);
+// die;
 
 						if($key > 1){					
 							$sqlQuery = " INSERT INTO public.tbl_claim_data
@@ -112,10 +120,10 @@ switch ($_POST['kode']) {
 									VALUES( 
 									'$cedant_clm_nbr', '$policy_no', '$certificate_no', '$insured_name', $effective_date, '$sum_assured', '$benefit',$event_date, 
 									$submit_date,$complate_date,$approval_date , $payment_date, '$investigation', '$curr_idr', '$submission_amt', '$approved_amt', 
-									'$paid_amt', '$diagnosis_desc', '$tre_share_amt', '$sent_to_reinsr_date', '$sla',  '$upload_nmbr', '$ceding_name', '$treaty_name','$tre_si',$birth_date,'$cedant_rate', $stnc,'$fileName','$path') "; 
+									'$paid_amt', '$diagnosis_desc', '$tre_share_amt', '$sent_to_reinsr_date', '$sla',  '$upload_nmbr', '$ceding_name', '$treaty_name','$tre_si',$birth_date,'$cedant_rate', $stnc,'$fileName','$path') ; "; 
 								
 								// echo "<pre>";
-								// print_r( $sqlQuery);
+								// print_r( $sqlQuery); echo "\n";
 								// die;
 		
 							$dataQuery = $db->insert($sqlQuery);
@@ -165,6 +173,9 @@ switch ($_POST['kode']) {
 			break;
 	case 'list_insured':	
 			list_insured($_POST);
+			break;
+	case 'generate_settle':
+			generate_settle($_POST);
 			break;
     default:
 		break;
@@ -296,6 +307,145 @@ function check_max_upload_number($data=""){
 
 	echo json_encode($upload_number);
 }
+
+
+function generate_settle($data) { 
+
+
+	// echo "<pre>";
+	// echo "data= "; print_r($data); 
+
+	$id = explode(",",$data['id']);
+	$claim_insd_name = explode(",",$data['claim_insd_name']);
+	$pl_insd_name = explode(",",$data['pl_insd_name']);
+	$result_insd_name= explode(",",$data['result_insd_name']);
+	$claim_policy_no= explode(",",$data['claim_policy_no']);
+	$pl_policy_no= explode(",",$data['pl_policy_no']);
+	$result_policy_no= explode(",",$data['result_policy_no']);
+	$claim_certificate_no= explode(",",$data['claim_certificate_no']);
+	$pl_certificate_no= explode(",",$data['pl_certificate_no']);
+	$result_certificate_no= explode(",",$data['result_certificate_no']);
+	$claim_effective_date= explode(",",$data['claim_effective_date']);
+	$pl_inception_date= explode(",",$data['pl_inception_date']);
+	$result_efective_inception= explode(",",$data['result_efective_inception']);
+	$claim_submit= explode(",",$data['claim_submit']);
+	$pl_sum_insd= explode(",",$data['pl_sum_insd']);
+	$result_claim_submit_pl_sum_insd= explode(",",$data['result_claim_submit_pl_sum_insd']);
+	$claim_event= explode(",",$data['claim_event']);
+	$stnc= explode(",",$data['stnc']);
+	$result_claim_event_stnc= explode(",",$data['result_claim_event_stnc']);
+	$payment_date_submit_date_days= explode(",",$data['payment_date_submit_date_days']);
+	$result_payment_date_submit_date_status= explode(",",$data['result_payment_date_submit_date_status']);
+	$pl_cedant_ret= explode(",",$data['pl_cedant_ret']);
+	$pl_tre= explode(",",$data['pl_tre']);
+	$claim_paid_by_cedant= explode(",",$data['claim_paid_by_cedant']);
+	$claim_paid_tre_share_calc_by_cedant= explode(",",$data['claim_paid_tre_share_calc_by_cedant']);
+	$claim_paid_tre_share_calc_by_tre= explode(",",$data['claim_paid_tre_share_calc_by_tre']);
+	$check_claim_tre_share_cedant_vs_tre= explode(",",$data['check_claim_tre_share_cedant_vs_tre']);
+	$result_check_claim_tre_share_cedant_vs_tre= explode(",",$data['result_check_claim_tre_share_cedant_vs_tre']);
+	$result_overall_clm_status= explode(",",$data['result_overall_clm_status']);
+	$remark= explode(",",$data['remark']);
+	$file_name= explode(",",$data['file_name']);
+	$path_file= explode(",",$data['path_file']);
+	$settle_date= explode(",",$data['settle_date']);
+	$id_old= explode(",",$data['id']);
+
+	// echo "id= "; print_r($id); 
+
+	$database = new Koneksi;
+	for( $i =0; $i <= count($id)-1; $i++ ){
+		// echo "id= "; print_r($id[$i]); echo "\n";
+		// echo "claim_insd_name= "; print_r($claim_insd_name); echo "\n";
+
+		$claim_effective_date[$i] = !empty($claim_effective_date[$i]) ? "'$claim_effective_date[$i]'" : "NULL";
+		$pl_inception_date[$i] = !empty($pl_inception_date[$i]) ? "'$pl_inception_date[$i]'" : "NULL";
+		$payment_date_submit_date_days[$i] = !empty($payment_date_submit_date_days[$i]) ? "'$payment_date_submit_date_days[$i]'" : "NULL";
+		
+			
+		$sqlQuery = "INSERT INTO public.tbl_claim_settle
+            (claim_insd_name,
+             pl_insd_name,
+             result_insd_name,
+             claim_policy_no,
+             pl_policy_no,
+             result_policy_no,
+             claim_certificate_no,
+             pl_certificate_no,
+             result_certificate_no,
+             claim_effective_date,
+             pl_inception_date,
+             result_efective_inception,
+             claim_submit,
+             pl_sum_insd,
+             result_claim_submit_pl_sum_insd,
+             claim_event,
+             stnc,
+             result_claim_event_stnc,
+             payment_date_submit_date_days,
+             result_payment_date_submit_date_status,
+             pl_cedant_ret,
+             pl_tre,
+             claim_paid_by_cedant,
+             claim_paid_tre_share_calc_by_cedant,
+             claim_paid_tre_share_calc_by_tre,
+             check_claim_tre_share_cedant_vs_tre,
+             result_check_claim_tre_share_cedant_vs_tre,
+             result_overall_clm_status,
+             remark,
+             file_name,
+             path_file,
+             settle_date,
+             id_old )
+	VALUES (
+			'$claim_insd_name[$i]',
+			'$pl_insd_name[$i]',
+			'Ok',
+			'$claim_policy_no[$i]',
+			'$pl_policy_no[$i]',
+			'Ok',
+			'$claim_certificate_no[$i]',
+			'$pl_certificate_no[$i]',
+			'Ok',
+			$claim_effective_date[$i],
+			$pl_inception_date[$i],
+			'Ok',
+			'$claim_submit[$i]',
+			'$pl_sum_insd[$i]',
+			'Ok',
+			'$claim_event[$i]',
+			'$stnc[$i]',
+			'Ok',
+			$payment_date_submit_date_days[$i],
+			'Ok',
+			'$pl_cedant_ret[$i]',
+			'$pl_tre[$i]',
+			'$claim_paid_by_cedant[$i]',
+			'$claim_paid_tre_share_calc_by_cedant[$i]',
+			'$claim_paid_tre_share_calc_by_tre[$i]',
+			'$check_claim_tre_share_cedant_vs_tre[$i]',
+			'Ok',
+			'Ok',
+			'$remark[$i]',
+			'$file_name[$i]',
+			'$path_file[$i]',
+			'now()',
+			'$id_old[$i]' ) ; ";
+			
+			// echo "<pre>";
+			// print_r($sqlQuery); echo "\n";
+
+			$dataQuery = $database->db_fetch_obj($sqlQuery);
+	}
+	// die;
+
+	// echo "<pre>";
+	// print_r($dataQuery['success']); echo "\n";
+	// die;
+
+	echo json_encode((int)$dataQuery['success']);
+	
+}
+
 
 function check_data_claim($data) {
 	
@@ -541,7 +691,7 @@ function check_data_claim($data) {
 			$Claim_Paid_TRE_Share_calcByTRE = ($result_pl_tree*$paid_amt);
 			$Claim_Paid_TRE_Share_cedantVersionVsTREversion_real =(floatval($Claim_Paid_TRE_Share_calcByTRE) / floatval($tre_share_amt) );
 			$Claim_Paid_TRE_Share_cedantVersionVsTREversion_100 =(floatval($Claim_Paid_TRE_Share_calcByTRE) / floatval($tre_share_amt)*100 );
-			$Claim_Paid_TRE_Share_cedantVerVsTREver = $Claim_Paid_TRE_Share_cedantVersionVsTREversion_real = '1' ? "ok" : "Check";
+			$Claim_Paid_TRE_Share_cedantVerVsTREver = $Claim_Paid_TRE_Share_cedantVersionVsTREversion_real = '1' ? "Ok" : "Check";
 			$result_pl_cedant_rate = !empty($result_pl_cedant_rate) ? "$pl_tree_si" : 0;
 
 			// print_r( floatval($result_pl_cedant_rate)*100 ); echo "<br>";
@@ -738,8 +888,11 @@ function proses_data_claim_treaty($data) {
 							certificate_no,
 							inception_date,
 							sum_insured_orc 
-			from tbl_insured  where name_of_insured = '$insured_name_claim' 
-			and birth_of_date ='$birth_date_claim' ";
+			from tbl_insured  
+			where name_of_insured = '$insured_name_claim' 
+			and birth_of_date ='$birth_date_claim' 
+			and certificate_no='$certificate_no_claim' 
+			and policy_no ='$policy_no_claim'  ";
 
 
 			// $sqlQuery_name_of_insured = "select name_of_insured from tbl_insured where  name_of_insured = '$insured_name_claim' and birth_of_date ='$birth_date_claim' limit 1 ";										
@@ -926,7 +1079,7 @@ function proses_data_claim_treaty($data) {
 			$Claim_Paid_TRE_Share_calcByTRE = ($result_pl_tree*$paid_amt);
 			$Claim_Paid_TRE_Share_cedantVersionVsTREversion_real =(floatval($Claim_Paid_TRE_Share_calcByTRE) / floatval($tre_share_amt) );
 			$Claim_Paid_TRE_Share_cedantVersionVsTREversion_100 =(floatval($Claim_Paid_TRE_Share_calcByTRE) / floatval($tre_share_amt)*100 );
-			$Claim_Paid_TRE_Share_cedantVerVsTREver = $Claim_Paid_TRE_Share_cedantVersionVsTREversion_real = '1' ? "ok" : "Check";
+			$Claim_Paid_TRE_Share_cedantVerVsTREver = $Claim_Paid_TRE_Share_cedantVersionVsTREversion_real = '1' ? "Ok" : "Check";
 			$result_pl_cedant_rate = !empty($result_pl_cedant_rate) ? "$pl_tree_si" : 0;
 
 			// print_r( floatval($result_pl_cedant_rate)*100 ); echo "<br>";

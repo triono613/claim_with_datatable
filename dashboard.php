@@ -28,7 +28,20 @@ if(!strlen(trim($_SESSION['username']))) {
 	    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
 		
 
-      <title>data_claim</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" />
+
+
+    <!-- <link href="https://cdn.datatables.net/select/1.2.1/css/select.dataTables.min.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" /> -->
+s
+
+      <title>Web Claim</title>
 </head>
 <body class="hold-transition sidebar-mini">	
 	
@@ -228,6 +241,9 @@ if(!strlen(trim($_SESSION['username']))) {
     <script src="assets/DataTables/Buttons-1.5.6/js/buttons.colVis.min.js"></script>
 	
 	
+    <!-- <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script> -->
+  <script src="https://cdn.datatables.net/select/1.2.1/js/dataTables.select.min.js"></script> 
+
 	<!--<script src="plugins/jquery/jquery.min.js"></script> 
 	<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script> 
 	<script src="dist/js/pages/dashboard3.js"></script>
@@ -239,27 +255,6 @@ if(!strlen(trim($_SESSION['username']))) {
 	<script src="plugins/chart.js/Chart.min.js"></script>
 
 	
-	
-			
-
-    <script>
-        $(document).ready(function() {
-            var table = $('#table').DataTable( {
-                buttons: [ 'copy','csv','print', 'excel', 'pdf', 'colvis' ],
-                dom: 
-                "<'row'<'col-md-3'l><'col-md-5'B><'col-md-4'f>>" +
-                "<'row'<'col-md-12'tr>>" +
-                "<'row'<'col-md-5'i><'col-md-7'p>>",
-                lengthMenu:[
-                    [5,10,25,50,100,-1],
-                    [5,10,25,50,100,"All"]
-                ]
-            } );
-        
-            table.buttons().container()
-                .appendTo( '#table_wrapper .col-md-5:eq(0)' );
-        } );
-    </script>
 </body>
 
 </html>
