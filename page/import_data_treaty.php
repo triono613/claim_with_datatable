@@ -267,7 +267,8 @@ if(!strlen(trim($_SESSION['username']))) {
 									<th>No.</th> 
 									<th>Nama File</th>
 							<!--	<th>tgl validasi</th> -->
-									<th>detail</th> 
+									<th>Detail Data Validasi</th> 
+									<th>Detail Data Settle</th> 
 								</tr>
 								</thead>
                  
@@ -339,12 +340,12 @@ if(!strlen(trim($_SESSION['username']))) {
 		</div>
 
 		<fieldset class="scheduler-border">
-		<legend class="scheduler-border">Data setelah Validasi </legend>		
+		<legend class="scheduler-border">Data Settle </legend>		
 		<div class="position-relative ">
 		<div class="table-responsive">
         <p><h1></h1></p>
 		<div>
-			<input type="checkbox" id="selectAll" class="selectAll" name="selectAll" value="all" />  Pilih Semua
+			
 		</div>
 		<br>
         <div >
@@ -385,7 +386,7 @@ if(!strlen(trim($_SESSION['username']))) {
 									<th>remark</th>
 									<th>file name</th>
 									<th>path file</th>
-									<th>tgl validasi</th> 
+									<th>tgl Generate</th> 
 								</tr>
 								</thead>
                  
@@ -736,6 +737,12 @@ if(!strlen(trim($_SESSION['username']))) {
 											return '<button class="dt-button btn-sm getDtRes" id="' + row.file_name +'" >Detail</button>'
 										}
 							},
+							{
+								'data': null,
+								'render': function (data, type, row) {
+											return '<button class="dt-button btn-sm getDtSettle" id="BtnDtSettle" >Detail Data Settle</button>'
+										}
+							},
 							
 		        ],
 		    });
@@ -753,6 +760,20 @@ if(!strlen(trim($_SESSION['username']))) {
 					  var validasi_date = null;
 					  detail_check_result_validasi(file_name,validasi_date,validasi_number);
 				});
+
+			$('#tbl_claim_check_result tbody').on('click', '.getDtSettle', function () {
+					  var fila = $(this).closest("tr");
+					  var data = tbl_claim_check_result.row( fila ).data();
+					  console.log(data);
+					  
+					  var validasi_number = null;
+					  
+					  var file_name = data.file_name;
+					  var id = data.id;
+					  var validasi_date = null;
+					  detail_data_settle(file_name,validasi_date,validasi_number);
+				});
+
 		}
 		
 				
@@ -1060,6 +1081,17 @@ if(!strlen(trim($_SESSION['username']))) {
 
 				console.log('tx= ',tablex.rows('.selected').data().length);
 
+				Swal.fire({
+								title: 'Generate Data Settle ',
+								text: "",
+								icon: 'info',
+								showCancelButton: true,
+								confirmButtonColor: '#3085d6',
+								cancelButtonColor: '#d33',
+								// confirmButtonText: 'Yes, delete it!'
+							}).then((result) => {
+								if (result.isConfirmed) {
+
 				if( tablex.rows('.selected').data().length > 0 ) {  
 					$.map(tablex.rows('.selected').data(), function (value,i) {
 								id.push(value.id);
@@ -1147,17 +1179,145 @@ if(!strlen(trim($_SESSION['username']))) {
 								Swal.fire("Data Settle berhasil dibuat",'','success')			 
 							}else{
 								Swal.fire("Data Settle gagal dibuat",'','danger')			 
-							}						
+							}
+							$('#tbl_settle').DataTable().ajax.reload();						
 						}
 					});		
-				} else {
-						Swal.fire("Data Validasi belum dipilih ",'','info')			 
-				}			
-			});
+				} 
+				else {
+					Swal.fire("Data Validasi belum dipilih ",'','info')			 
+				}	
+				
+			}
+		});
+					
+		});
+
+
 
 		}
 	
 	
+
+		var tbl_settle;
+	    
+		function detail_data_settle(file_name,validasi_date,validasi_number) {	
+			
+			$("#tbl_settle").dataTable().fnDestroy();
+		    tbl_settle = $('#tbl_settle').DataTable({
+				lengthMenu:[
+                    [5,10,25,50,100,10000],
+                    [5,10,25,50,100,10000]
+                ],
+                dom: 
+                "<'row'<'col-md-3'l><'col-md-5'B><'col-md-4'f>>" +
+                "<'row'<'col-md-12'tr>>" +
+                "<'row'<'col-md-5'i><'col-md-7'p>>",
+				// buttons: [ 'csv','excel' ],
+				buttons: [
+					{
+					className:'dt-button',
+					extend: 'excel',
+					text : 'Data Claim Settle Export to Excel',
+					filename: function(){
+									var d = new Date();
+									var year = d.getFullYear();
+									var month = (d.getMonth()+1);
+									var day = d.getDate();
+									var hours = d.getHours();
+									var minutes = d.getMinutes();
+									var ms = d.getMilliseconds();
+									return 'excel_' + year+'-'+month+'-'+day+'-'+hours+'-'+minutes+'-'+ms;
+								}
+					},
+					{
+					className:'dt-button',
+					extend: 'csv',
+					text : 'Data Claim Settle Export to CSV',
+					filename: function(){
+						var d = new Date();
+									var year = d.getFullYear();
+									var month = (d.getMonth()+1);
+									var day = d.getDate();
+									var hours = d.getHours();
+									var minutes = d.getMinutes();
+									var ms = d.getMilliseconds();
+									return 'csv_' + year+'-'+month+'-'+day+'-'+hours+'-'+minutes+'-'+ms;
+								}
+					}
+				],
+                'processing': true,
+                'serverSide': true,
+                'serverMethod': 'post',
+                'ajax': {
+                    "url": "view_tbl_settle_detail.php",
+					"type": 'POST',
+					"data":  {
+						file_name:file_name,
+						validasi_date:validasi_date,
+						validasi_number:validasi_number
+						}
+                },
+                pageLength: 10000,
+                'columns': [  
+							{ "data":"no" ,"title": "No.","width":"50%"},
+							{ "data":"id" ,"title": "id","visible": false},
+							{ "data":"claim_insd_name","title": "Claim Insd Name","width":"100%"},
+							{ "data":"pl_insd_name","title": "PL Insd Name",},
+							{ "data":"result_insd_name", "title": "Insd Name",}, 
+							{ "data":"claim_policy_no", "title": "Claim Policy No",},
+							{ "data":"pl_policy_no", "title": "PL Policy No",},
+							{ "data":"result_policy_no", "title": "Policy No",},
+							{ "data":"claim_certificate_no", "title": "Claim Certificate",},
+							{ "data":"pl_certificate_no", "title": "PL Certificate",},
+							{ "data":"result_certificate_no", "title": "Certificate",},
+							{ "data":"claim_effective_date", "title": "Claim Effective Date",},
+							{ "data":"pl_inception_date", "title": "PL Inception Date",},
+							{ "data":"result_efective_inception", "title": "Effective vs Inception",},
+							{ "data":"claim_submit", "title": "Claim Submit 100%",render: $.fn.dataTable.render.number( ',', '.', 2 )},
+							{ "data":"pl_sum_insd", "title": "PL Sum Insd 100%",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							{ "data":"result_claim_submit_pl_sum_insd", "title": "Claim Submit vs PL Sum Insured ",},
+							{ "data":"claim_event", "title": "Claim Event ",},
+							{ "data":"stnc", "title": "STNC ",},
+							{ "data":"result_claim_event_stnc", "title": "Claim Event vs STNC",}, 
+							{ "data":"payment_date_submit_date_days", "title": "Payment Date vs Submit Date Days",}, 
+							{ "data":"result_payment_date_submit_date_status", "title": "Payment Date vs Submit Date Days Status",}, 
+							{ "data":"pl_cedant_ret", "title": "PL Cedant Ret",}, 
+							{ "data":"pl_tre", "title": "PL TRE",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							{ "data":"claim_paid_by_cedant", "title": "Claim Paid by Cedant 100%",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							{ "data":"claim_paid_tre_share_calc_by_cedant", "title": "Claim Paid TRE Share (calc by Cedant)",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							{ "data":"claim_paid_tre_share_calc_by_tre", "title": " Claim Paid TRE Share (calc by TRE)",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							{ "data":"check_claim_tre_share_cedant_vs_tre", "title": " Check Claim TRE Share (Cedant Version vs TRE Version)",}, 
+							{ "data":"result_check_claim_tre_share_cedant_vs_tre", "title": "Check Claim TRE Share (Cedant ver vs TRE ver)",}, 
+							{ "data":"result_overall_clm_status", "title": "Overall Claim Status",}, 
+							{ "data":"remark"}, 			
+							{ "data":"file_name", "title": "nama file",}, 
+							{ "data":"path_file", "title": "path file",}, 
+							{ "data":"settle_date", "title": "tgl Settle",}
+							
+					],
+					'rowCallback': function(row, data, index){
+						
+						data['result_insd_name'] == "Ok" ? $(row).find('td:eq(3)').css('color', 'green') : $(row).find('td:eq(3)').css('color', 'red');
+						data['result_policy_no'] == "Ok" ? $(row).find('td:eq(6)').css('color', 'green') : $(row).find('td:eq(6)').css('color', 'red');
+						data['result_certificate_no'] == "Ok" ? $(row).find('td:eq(9)').css('color', 'green') : $(row).find('td:eq(9)').css('color', 'red');
+						data['result_efective_inception'] == "Ok" ? $(row).find('td:eq(12)').css('color', 'green') : $(row).find('td:eq(12)').css('color', 'red');
+						data['result_claim_submit_pl_sum_insd'] == "Ok" ? $(row).find('td:eq(15)').css('color', 'green') : $(row).find('td:eq(15)').css('color', 'red');
+						data['result_claim_event_stnc'] == "Ok" ? $(row).find('td:eq(18)').css('color', 'green') : $(row).find('td:eq(18').css('color', 'red');
+						data['result_payment_date_submit_date_status'] == "Ok" ? $(row).find('td:eq(20)').css('color', 'green') : $(row).find('td:eq(20)').css('color', 'red');
+						data['result_check_claim_tre_share_cedant_vs_tre'] == "Ok" ? $(row).find('td:eq(27)').css('color', 'green') : $(row).find('td:eq(27)').css('color', 'red');
+						data['result_overall_clm_status'] == "Ok" ? $(row).find('td:eq(28)').css('color', 'green') : $(row).find('td:eq(28)').css('color', 'red');
+						
+					},
+				});
+
+
+		}
+
+
+
+
+
 
 	
 		$('#btn_save_settle').on('click', function() {
