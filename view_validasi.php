@@ -1,5 +1,5 @@
 <?php
-include "koneksi.php"; // Load file koneksi.php
+include "koneksi.php"; 
 
 $search = $_POST['search']['value']; 
 $limit = $_POST['length']; 
@@ -22,11 +22,6 @@ $stro = $query.$order." LIMIT ".$limit." OFFSET ".$start;
 $sql_data = $db->db_fetch_array($query.$order." LIMIT ".$limit." OFFSET ".$start); 
 $sql_filter = $db->db_row_count($query); 
 
-// echo "<pre>";
-// echo "stro= ";print_r( $stro);
-// die;
-
-
 $data = array(); 
 $result = $sql_data['data']; 
 $index = 0;
@@ -37,9 +32,6 @@ foreach($result as $d){
     $index++;
     $no++;
 
-    // echo "<pre>";
-    // print_r( $data);
-
 }
 
 $callback = array(
@@ -48,10 +40,6 @@ $callback = array(
     'recordsFiltered'=>$sql_filter['data'], 
     'data'=>$data
 );
-
-// echo "<pre>";
-// print_r( $callback);
-// die;
 
 header('Content-Type: application/json');
 echo json_encode($callback);

@@ -329,6 +329,7 @@ if(!strlen(trim($_SESSION['username']))) {
 									<th>file name</th>
 									<th>path file</th>
 									<th>tgl validasi</th> 
+									<th>no treaty</th> 
 								</tr>
 								</thead>
                  
@@ -386,7 +387,7 @@ if(!strlen(trim($_SESSION['username']))) {
 									<th>remark</th>
 									<th>file name</th>
 									<th>path file</th>
-									<th>tgl Generate</th> 
+									<!-- <th>tgl Generate</th>  -->
 								</tr>
 								</thead>
                  
@@ -890,7 +891,8 @@ if(!strlen(trim($_SESSION['username']))) {
 							{ "data":"remark"}, 			
 							{ "data":"file_name", "title": "nama file",}, 
 							{ "data":"path_file", "title": "path file",}, 
-							{ "data":"validasi_date", "title": "tgl validasi",}
+							{ "data":"validasi_date", "title": "tgl validasi",},
+							{ "data":"no_treaty", "title": "No Treaty",}
 							
 					],
 					'rowCallback': function(row, data, index){
@@ -1379,12 +1381,13 @@ if(!strlen(trim($_SESSION['username']))) {
 									$("#wait").hide(); 
 									Swal.fire("","Nama Ceding belum dipilih",'info');
 									return false;
-						} else if ( $('#treaty_name').val() =="" ){
-									$("#wait").hide(); 
-									Swal.fire("","Nama Treaty belum dipilih",'info');
-									return false;
-						}
-						else{
+						} 
+						// else if ( $('#treaty_name').val() =="" ){
+						// 			$("#wait").hide(); 
+						// 			Swal.fire("","Nama Treaty belum dipilih",'info');
+						// 			return false;
+						// }
+						else {
 							Swal.fire({
 								title: 'Upload! ',
 								text: "Upload data untuk Ceding '"+$('#ceding_name').val().trim()+"' dan treaty '"+ $('#treaty_name').val().trim()+"' ",

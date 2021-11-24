@@ -850,7 +850,7 @@ function proses_data_claim_treaty($data) {
 		$data_claim = $dataQuery_claim['data'];
 		
 		echo "<pre>";
-		echo "data_claimxx= "; print_r($data_claim);
+		echo "data_claimxx= "; print_r($data_claim); echo "\r\n";
 		// die;
 
 		foreach( $data_claim as $key=>$value ) {
@@ -883,6 +883,7 @@ function proses_data_claim_treaty($data) {
 			// $name_of_insured = $data_insured_obj['data']['name_of_insured'];
 
 			$data_insured = "select 
+							no_treaty,
 							name_of_insured,
 							policy_no,
 							certificate_no,
@@ -892,8 +893,13 @@ function proses_data_claim_treaty($data) {
 			where name_of_insured = '$insured_name_claim' 
 			and birth_of_date ='$birth_date_claim' 
 			and certificate_no='$certificate_no_claim' 
-			and policy_no ='$policy_no_claim'  ";
+			and policy_no ='$policy_no_claim' 
+			 ";
 
+
+			// echo "<pre>";
+			// echo "data_insured= ";print_r( $data_insured );
+			// die;
 
 			// $sqlQuery_name_of_insured = "select name_of_insured from tbl_insured where  name_of_insured = '$insured_name_claim' and birth_of_date ='$birth_date_claim' limit 1 ";										
 			$dataQuery_insured = $database->db_fetch_obj($data_insured);
@@ -907,6 +913,7 @@ function proses_data_claim_treaty($data) {
 			$certificate_no_insured = $dataQuery_insured['data']['certificate_no'];
 			$inception_date_insured = $dataQuery_insured['data']['inception_date'];
 			$sum_insured_orc = $dataQuery_insured['data']['sum_insured_orc'];
+			$no_treaty = $dataQuery_insured['data']['no_treaty'];
 
 			// $sqlQuery_policy_no = "select policy_no from tbl_insured where  name_of_insured = '$insured_name_claim' and birth_of_date ='$birth_date_claim' limit 1 ";
 			// $dataQuery_policy_no = $database->db_fetch_obj($sqlQuery_policy_no);
@@ -1141,7 +1148,8 @@ function proses_data_claim_treaty($data) {
 							remark,
 							file_name,
 							path_file,
-							validasi_date
+							validasi_date,
+							no_treaty
 							)
 						VALUES(
 							'$insured_name_claim', 
@@ -1175,7 +1183,8 @@ function proses_data_claim_treaty($data) {
 							NULL,
 							'$fileName',
 							'$path',
-							'now()'
+							'now()',
+							'$no_treaty'
 							) ;";
 
 			// echo "<pre>";
@@ -1190,7 +1199,7 @@ function proses_data_claim_treaty($data) {
 		// die;
 
 		// echo json_encode( $dataQuery_q_insert);
-		echo json_encode(TRUE);
+		// echo json_encode(TRUE);
 		
 	// } else {
 		// $upload_number = "error";

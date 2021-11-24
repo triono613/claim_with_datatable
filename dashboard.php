@@ -103,11 +103,18 @@ s
                   <p>Data Insured</p>
                 </a>
               </li>
-			        <li class="nav-item">
+			        <!-- <li class="nav-item">
                 <a href="dashboard?page=import_data_new" class="nav-link">
                   <p>Upload Data Claim</p>
                 </a>
+              </li> -->
+
+              <li class="nav-item">
+                <a href="dashboard?page=data_treaty" class="nav-link">
+                  <p>Data Treaty</p>
+                </a>
               </li>
+
               <li class="nav-item">
                 <a href="dashboard?page=import_data_treaty" class="nav-link">
                   <p>Upload Data Claim Nasional Life</p>
@@ -160,7 +167,9 @@ s
               unset($_SESSION["username"]);
               // header("Location:index");
               break;
-                
+            case 'data_treaty':
+                echo  "Data Treaty";
+                break;
 						default:
 							echo "<center><h3>Maaf. Halaman tidak di temukan !</h3></center>";
 							break;
@@ -201,7 +210,9 @@ s
             case 'setting_uw':
                 include "page/setting_uw.php";
                 break;
-							
+            case 'data_treaty':
+                include "page/data_treaty.php"; 
+                break;
 						default:
 							echo "<center><h3>Maaf. Halaman tidak di temukan !</h3></center>";
 							break;
