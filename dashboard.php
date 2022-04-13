@@ -26,7 +26,6 @@ if(!strlen(trim($_SESSION['username']))) {
 	    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 	    <link rel="stylesheet" href="dist/css/adminlte.min.css">
 	    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
-		
 
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css" />
@@ -41,7 +40,8 @@ if(!strlen(trim($_SESSION['username']))) {
     <!-- <link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" /> -->
 s
 
-      <title>Web Claim</title>
+<title>Tugure WebClaim</title>
+      <link rel="icon" type="image/png" href="https://www.tugure.id/uploads/web_config/606be2e4b96f5_20210406112612-1.png"/>
 </head>
 <body class="hold-transition sidebar-mini">	
 	
@@ -116,8 +116,8 @@ s
               </li>
 
               <li class="nav-item">
-                <a href="dashboard?page=import_data_treaty" class="nav-link">
-                  <p>Upload Data Claim Nasional Life</p>
+                <a href="dashboard?page=import_data_treaty_tokio_marine" class="nav-link">
+                  <p>Upload Data Peserta Claim Life </p>
                 </a>
               </li>
               <li class="nav-item">
@@ -125,6 +125,13 @@ s
                   <p>Setting Ketentuan Underwriting</p>
                 </a>
               </li>
+
+              <li class="nav-item">
+                <a href="dashboard?page=upload_urgent" class="nav-link">
+                  <p>upload urgent</p>
+                </a>
+              </li>
+
               <li class="nav-item">
                 <a href="dashboard?page=logout" class="nav-link">
                   <p>Logout</p>
@@ -156,12 +163,17 @@ s
 						case 'import_data_new':
 							echo "Import Data";
 							break;
-            case 'import_data_treaty':
+            case 'import_data_treaty_tokio_marine':
                 echo "Import Data";
                 break;
             case 'setting_uw':
                 echo "";
                 break;
+
+            case 'upload_urgent':
+                  echo "";
+                  break;
+
             case 'logout':
               session_destroy();
               unset($_SESSION["username"]);
@@ -204,12 +216,20 @@ s
 						case 'import_data_new':
 							include "page/import_data_new.php";
 							break;
-            case 'import_data_treaty':
-                include "page/import_data_treaty.php"; 
-                break;
+            // case 'import_data_treaty':
+            //     include "page/import_data_treaty.php"; 
+            //     break;
+
+            case 'import_data_treaty_tokio_marine':
+              include "page/import_data_treaty_tokio_marine.php"; 
+              break;
+
             case 'setting_uw':
                 include "page/setting_uw.php";
                 break;
+            case 'upload_urgent':
+                  include "page/upload_urgent.php";
+                  break;
             case 'data_treaty':
                 include "page/data_treaty.php"; 
                 break;
@@ -244,7 +264,7 @@ s
 
     <script src="assets/DataTables/Buttons-1.5.6/js/dataTables.buttons.min.js"></script>
     <script src="assets/DataTables/Buttons-1.5.6/js/buttons.bootstrap4.min.js"></script>
-    <script src="assets/DataTables/JSZip-2.5.0/jszip.min.js"></script>
+   <!-- <script src="assets/DataTables/JSZip-2.5.0/jszip.min.js"></script> -->
     <script src="assets/DataTables/pdfmake-0.1.36/pdfmake.min.js"></script>
     <script src="assets/DataTables/pdfmake-0.1.36/vfs_fonts.js"></script>
     <script src="assets/DataTables/Buttons-1.5.6/js/buttons.html5.min.js"></script>

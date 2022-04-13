@@ -157,11 +157,12 @@ if(!strlen(trim($_SESSION['username']))) {
 		<!-- <span class="glyphicon glyphicon-eye-open"></span> -->
 		 Upload
 	</button>
+	<button id="download_format_excel" type="button" name="download_format_excel" class="dt-button buttons-csv buttons-html5 btn-sm pull-left">
+		<a href='./PHPExcel/template_upload.xlsx' target='__self'>Download Template Upload</a>
+	</button>
   </div>
 </div>
-<div class="col-xs-0">
-  
-</div>
+
 <div class="form-group">
     <input id="upload_number" type="text" name="upload_number" style="display: none;" class="" />
 </div>
@@ -183,10 +184,10 @@ if(!strlen(trim($_SESSION['username']))) {
 							<thead>
 								<tr>
 									<th>No.</th> 
-									<th>file name</th>
-									<th>ceding</th>
-									<th>treaty name</th> 
-									<th>upload number</th> 
+									<th>Nama File</th>
+									<th>Ceding</th>
+									<th>Nama Treaty</th> 
+									<th>Upload No.</th> 
 									<th>Detail</th>
 									<th>Validasi Data</th>
 								</tr>
@@ -210,37 +211,37 @@ if(!strlen(trim($_SESSION['username']))) {
 							<thead>
 								<tr>
 									<th>No.</th> 
-									<th>ceding_name</th>
-									<th>treaty_name</th>
-									<th>Upload Number</th>
-									<th>cedant_clm_nbr</th>
-									<th>policy_no</th>
-									<th>certificate_no</th>
-									<th>insured_name</th>
-									<th>effective_date</th>
-									<th>sum_assured</th>
-									<th>benefit</th>
-									<th>event_date</th>
-									<th>submit_date</th>
-									<th>complate_date</th>
-									<th>approval_date</th>
-									<th>payment_date</th>
-									<th>investigation</th>
-									<th>curr_idr</th>
-									<th>submission_amt</th>
-									<th>approved_amt</th>
-									<th>paid_amt</th>
-									<th>diagnosis_desc</th>
-									<th>tre_share_amt</th>
-									<th>sent_to_reinsr_date</th>
-									<th>sla</th>
-									<th>tre_si</th>
-									<th>cedant_rate</th>
-									<th>birth_date</th>
-									<th>stnc</th>
-									<th>Tgl upload</th>
-									<th>File Name</th>
-									<th>Path File </th>
+									<th>Nama Ceding</th>
+									<th>Nama Treaty</th>
+									<th>Upload No</th>
+									<th>No. Klaim Ceding </th>
+									<th>No Polis</th>
+									<th>No. Certificate</th>
+									<th>Nama Insured</th>
+									<th>TGL Effective</th>
+									<th>Sum Assured</th>
+									<th>Benefit</th>
+									<th>Tgl Event</th>
+									<th>Tgl Kirim</th>
+									<th>Tgl Complate</th>
+									<th>Tgl Approve</th>
+									<th>Tgl Bayar</th>
+									<th>Investigasi</th>
+									<th>Idr</th>
+									<th>Jumlah Submission</th>
+									<th>Jumlah Approved</th>
+									<th>Jumlah Bayar</th>
+									<th>Ket Diagnosis</th>
+									<th>Jml tre share</th>
+									<th>Tgl Kirim ke Reins</th>
+									<th>SLA</th>
+									<th>Tre SI</th>
+									<th>Rate Ceding</th>
+									<th>Tgl Lhr</th>
+									<th>STNC</th>
+									<th>Tgl Upload</th>
+									<th>Nama File</th>
+									<th>Lokasi File </th>
 									
 								</tr>
 							</thead>
@@ -294,6 +295,7 @@ if(!strlen(trim($_SESSION['username']))) {
             <table id='tbl_claim_check_result_detail' class='table table-bordered'>
 								<thead>
 								<tr>
+									<!--
 									<th></th>
 									<th>No.</th> 
 									<th>Id.</th>
@@ -330,6 +332,49 @@ if(!strlen(trim($_SESSION['username']))) {
 									<th>path file</th>
 									<th>tgl validasi</th> 
 									<th>no treaty</th> 
+									-->
+
+
+									<th></th>
+									<th>No.</th>
+									<th>Id.</th>        
+									<th>Excel Insured</th>
+									<th>Weblife Insured</th>
+									<th>Check Insured</th>
+									<th>Excel Policy No</th>
+									<th>Weblife Policy No</th>
+									<th>Check Policy No</th>
+									<th>Excel Certificate</th>
+									<th>Weblife Certificate</th>
+									<th>Check Excel Certificate</th>
+									<th>Excel Tgl Lhr</th>
+									<th>Weblife Tgl Lhr</th>
+									<th>Check Tgl Lhr</th>
+									<th>Excel Effective Date</th>
+									<th>Weblife Inception Date</th>
+									<th>Check Effective vs Inception</th>
+									<th>Excel Claim Submit 100%</th>
+									<th>Weblife Sum Insd 100%</th>
+									<th>Check Claim Submit vs PL Sum Insured</th>
+									<th>Excel Claim Event Date</th>
+									<th>Excel STNC</th>
+									<th>Check Claim Event vs STNC</th>
+									<th>Payment Date vs Submit Date Days</th>
+									<th>Payment Date vs Submit Date Days Status</th>
+									<th>Excel Cedant Rate</th>
+									<th>Excel TRE</th>
+									<th>Claim Paid by Cedant 100%</th>
+									<th>Claim Paid TRE Share (calc by Cedant)</th>
+									<th>Claim Paid TRE Share (calc by TRE)</th>
+									<th>Check Claim TRE Share (Cedant Version vs TRE Version %)</th>
+									<th>Check Claim TRE Share (Cedant ver vs TRE ver status)</th>
+									<th>Overall Claim Status</th>
+									<th>Remark</th>	
+									<th>Nama File</th>
+									<th>Lokasi File</th>
+									<th>Tgl Validasi</th>
+									<th>No Treaty</th> 
+
 								</tr>
 								</thead>
                  
@@ -350,9 +395,10 @@ if(!strlen(trim($_SESSION['username']))) {
 		</div>
 		<br>
         <div >
-            <table id='tbl_settle' class='table table-bordered'>
+            <table id="tbl_settle" class='table table-bordered'>
 								<thead>
 								<tr>
+									<!--
 									<th></th>
 									<th>No.</th> 
 									<th>Id.</th>
@@ -387,7 +433,47 @@ if(!strlen(trim($_SESSION['username']))) {
 									<th>remark</th>
 									<th>file name</th>
 									<th>path file</th>
-									<!-- <th>tgl Generate</th>  -->
+									<th>tgl Generate</th>  -->
+
+									
+									
+							<th>No.</th>
+							<th>Id.</th>        
+							<th>Excel Insured</th>
+							<th>Weblife Insured</th>
+							<th>Check Insured</th>
+							<th>Excel Policy No</th>
+							<th>Weblife Policy No</th>
+							<th>Check Policy No</th>
+							<th>Excel Certificate</th>
+							<th>Weblife Certificate</th>
+							<th>Check Excel Certificate</th>
+							<th>Excel Effective Date</th>
+							<th>Weblife Inception Date</th>
+							<th>Effective vs Inception</th>
+							<th>Excel Claim Submit 100%</th>
+							<th>Weblife Sum Insd 100%</th>
+							<th>Check Claim Submit vs PL Sum Insured</th>
+							<th>Excel Claim Event Date</th>
+							<th>Excel STNC</th>
+							<th>Check Claim Event vs STNC</th>
+							<th>Payment Date vs Submit Date Days</th>
+							<th>Payment Date vs Submit Date Days Status</th>
+							<th>Excel Cedant Rate</th>
+							<th>Excel TRE</th>
+							<th>Claim Paid by Cedant 100%</th>
+							<th>Claim Paid TRE Share (calc by Cedant)</th>
+							<th>Claim Paid TRE Share (calc by TRE)</th>
+							<th>Check Claim TRE Share (Cedant Version vs TRE Version %)</th>
+							<th>Check Claim TRE Share (Cedant ver vs TRE ver status)</th>
+							<th>Overall Claim Status</th>
+							<th>Remark</th>	
+                            <th>Nama File</th>
+                            <th>Lokasi File</th>
+                            <th>Tgl Generate</th>
+                            
+							
+
 								</tr>
 								</thead>
                  
@@ -622,6 +708,7 @@ if(!strlen(trim($_SESSION['username']))) {
 					  var treaty_name = data.treaty_name;
 					  var upload_number = data.upload_number; 
 					  detail_validasi_insured(file_name,upload_number,"list_insured");
+					  detail_check_result_validasi(file_name,"","");
 				});
 				
 				$('#table-data-insured tbody').on('click', '.getValidasiData', function () {
@@ -707,6 +794,8 @@ if(!strlen(trim($_SESSION['username']))) {
 		        ],
 		    });
 			$('#table-data-insured-detail').DataTable().ajax.reload(); 
+			
+			
 
 		}
 		
@@ -760,6 +849,7 @@ if(!strlen(trim($_SESSION['username']))) {
 					  var id = data.id;
 					  var validasi_date = null;
 					  detail_check_result_validasi(file_name,validasi_date,validasi_number);
+					  
 				});
 
 			$('#tbl_claim_check_result tbody').on('click', '.getDtSettle', function () {
@@ -850,7 +940,9 @@ if(!strlen(trim($_SESSION['username']))) {
 				// scrollY:        "300px",
 				// scrollX:        true,
 				// scrollCollapse: true,  
-                pageLength: 10000,
+                // pageLength: 10000,
+				select: true,
+                pageLength: 5,
                 'columns': [  
 							{
 								data: null, 
@@ -858,63 +950,143 @@ if(!strlen(trim($_SESSION['username']))) {
 								className: 'select-checkbox',
 								orderable: false
 							},
-							{ "data":"no" ,"title": "No.","width":"50%"},
-							{ "data":"id" ,"title": "id","visible": false},
-							{ "data":"claim_insd_name","title": "Claim Insd Name","width":"100%"},
-							{ "data":"pl_insd_name","title": "PL Insd Name",},
-							{ "data":"result_insd_name", "title": "Insd Name",}, 
-							{ "data":"claim_policy_no", "title": "Claim Policy No",},
-							{ "data":"pl_policy_no", "title": "PL Policy No",},
-							{ "data":"result_policy_no", "title": "Policy No",},
-							{ "data":"claim_certificate_no", "title": "Claim Certificate",},
-							{ "data":"pl_certificate_no", "title": "PL Certificate",},
-							{ "data":"result_certificate_no", "title": "Certificate",},
-							{ "data":"claim_effective_date", "title": "Claim Effective Date",},
-							{ "data":"pl_inception_date", "title": "PL Inception Date",},
-							{ "data":"result_efective_inception", "title": "Effective vs Inception",},
-							{ "data":"claim_submit", "title": "Claim Submit 100%",render: $.fn.dataTable.render.number( ',', '.', 2 )},
-							{ "data":"pl_sum_insd", "title": "PL Sum Insd 100%",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
-							{ "data":"result_claim_submit_pl_sum_insd", "title": "Claim Submit vs PL Sum Insured ",},
-							{ "data":"claim_event", "title": "Claim Event ",},
-							{ "data":"stnc", "title": "STNC ",},
-							{ "data":"result_claim_event_stnc", "title": "Claim Event vs STNC",}, 
-							{ "data":"payment_date_submit_date_days", "title": "Payment Date vs Submit Date Days",}, 
-							{ "data":"result_payment_date_submit_date_status", "title": "Payment Date vs Submit Date Days Status",}, 
-							{ "data":"pl_cedant_ret", "title": "PL Cedant Ret",}, 
-							{ "data":"pl_tre", "title": "PL TRE",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
-							{ "data":"claim_paid_by_cedant", "title": "Claim Paid by Cedant 100%",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
-							{ "data":"claim_paid_tre_share_calc_by_cedant", "title": "Claim Paid TRE Share (calc by Cedant)",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
-							{ "data":"claim_paid_tre_share_calc_by_tre", "title": " Claim Paid TRE Share (calc by TRE)",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
-							{ "data":"check_claim_tre_share_cedant_vs_tre", "title": " Check Claim TRE Share (Cedant Version vs TRE Version)",}, 
-							{ "data":"result_check_claim_tre_share_cedant_vs_tre", "title": "Check Claim TRE Share (Cedant ver vs TRE ver)",}, 
-							{ "data":"result_overall_clm_status", "title": "Overall Claim Status",}, 
+							// { "data":"no" ,"title": "No.","width":"50%"},
+							// { "data":"id" ,"title": "id","visible": false},
+							// { "data":"claim_insd_name","title": "Claim Insd Name","width":"100%"},
+							// { "data":"pl_insd_name","title": "PL Insd Name",},
+							// { "data":"result_insd_name", "title": "Insd Name",}, 
+							// { "data":"claim_policy_no", "title": "Claim Policy No",},
+							// { "data":"pl_policy_no", "title": "PL Policy No",},
+							// { "data":"result_policy_no", "title": "Policy No",},
+							// { "data":"claim_certificate_no", "title": "Claim Certificate",},
+							// { "data":"pl_certificate_no", "title": "PL Certificate",},
+							// { "data":"result_certificate_no", "title": "Certificate",},
+							// { "data":"claim_effective_date", "title": "Claim Effective Date",},
+							// { "data":"pl_inception_date", "title": "PL Inception Date",},
+							// { "data":"result_efective_inception", "title": "Effective vs Inception",},
+							// { "data":"claim_submit", "title": "Claim Submit 100%",render: $.fn.dataTable.render.number( ',', '.', 2 )},
+							// { "data":"pl_sum_insd", "title": "PL Sum Insd 100%",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							// { "data":"result_claim_submit_pl_sum_insd", "title": "Claim Submit vs PL Sum Insured ",},
+							// { "data":"claim_event", "title": "Claim Event ",},
+							// { "data":"stnc", "title": "STNC ",},
+							// { "data":"result_claim_event_stnc", "title": "Claim Event vs STNC",}, 
+							// { "data":"payment_date_submit_date_days", "title": "Payment Date vs Submit Date Days",}, 
+							// { "data":"result_payment_date_submit_date_status", "title": "Payment Date vs Submit Date Days Status",}, 
+							// { "data":"pl_cedant_ret", "title": "PL Cedant Ret",}, 
+							// { "data":"pl_tre", "title": "PL TRE",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							// { "data":"claim_paid_by_cedant", "title": "Claim Paid by Cedant 100%",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							// { "data":"claim_paid_tre_share_calc_by_cedant", "title": "Claim Paid TRE Share (calc by Cedant)",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							// { "data":"claim_paid_tre_share_calc_by_tre", "title": " Claim Paid TRE Share (calc by TRE)",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							// { "data":"check_claim_tre_share_cedant_vs_tre", "title": " Check Claim TRE Share (Cedant Version vs TRE Version)",}, 
+							// { "data":"result_check_claim_tre_share_cedant_vs_tre", "title": "Check Claim TRE Share (Cedant ver vs TRE ver)",}, 
+							// { "data":"result_overall_clm_status", "title": "Overall Claim Status",}, 
+							// { "data":"remark"}, 			
+							// { "data":"file_name", "title": "nama file",}, 
+							// { "data":"path_file", "title": "path file",}, 
+							// { "data":"validasi_date", "title": "tgl validasi",},
+							// { "data":"no_treaty", "title": "No Treaty",}
+
+							
+							{ "data":"no" },
+							{ "data":"id" ,"visible": false},
+							{ "data":"claim_insd_name"},
+							{ "data":"pl_insd_name"},
+							{ "data":"result_insd_name"},
+							{ "data":"claim_policy_no"},
+							{ "data":"pl_policy_no"},
+							{ "data":"result_policy_no"},
+							{ "data":"claim_certificate_no"},
+							{ "data":"pl_certificate_no"},
+							{ "data":"result_certificate_no"},
+
+							{ "data":"claim_birth_date"},
+							{ "data":"pl_birth_date"},
+							{ "data":"result_birth_date"},
+
+							{ "data":"claim_effective_date"},
+							{ "data":"pl_inception_date"},
+							{ "data":"result_efective_inception"},
+							{ "data":"claim_submit", render: $.fn.dataTable.render.number( ',', '.', 2 )},
+							{ "data":"pl_sum_insd", render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							{ "data":"result_claim_submit_pl_sum_insd"},
+							{ "data":"claim_event"},
+							{ "data":"stnc"},
+							{ "data":"result_claim_event_stnc"},
+							{ "data":"payment_date_submit_date_days"},
+							{ "data":"result_payment_date_submit_date_status"},
+							{ "data":"pl_cedant_ret"},
+							{ "data":"pl_tre",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							{ "data":"claim_paid_by_cedant",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							{ "data":"claim_paid_tre_share_calc_by_cedant",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							{ "data":"claim_paid_tre_share_calc_by_tre",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							{ "data":"check_claim_tre_share_cedant_vs_tre"},
+							{ "data":"result_check_claim_tre_share_cedant_vs_tre"},
+							{ "data":"result_overall_clm_status"},
 							{ "data":"remark"}, 			
-							{ "data":"file_name", "title": "nama file",}, 
-							{ "data":"path_file", "title": "path file",}, 
-							{ "data":"validasi_date", "title": "tgl validasi",},
-							{ "data":"no_treaty", "title": "No Treaty",}
+							{ "data":"file_name"},
+							{ "data":"path_file"},
+							{ "data":"validasi_date"},
+							{ "data":"no_treaty"},
+							
 							
 					],
 					'rowCallback': function(row, data, index){
 						
+						/*
 						data['result_insd_name'] == "Ok" ? $(row).find('td:eq(4)').css('color', 'green') : $(row).find('td:eq(4)').css('color', 'red');
 						data['result_policy_no'] == "Ok" ? $(row).find('td:eq(7)').css('color', 'green') : $(row).find('td:eq(7)').css('color', 'red');
 						data['result_certificate_no'] == "Ok" ? $(row).find('td:eq(10)').css('color', 'green') : $(row).find('td:eq(10)').css('color', 'red');
-						data['result_efective_inception'] == "Ok" ? $(row).find('td:eq(13)').css('color', 'green') : $(row).find('td:eq(13)').css('color', 'red');
-						data['result_claim_submit_pl_sum_insd'] == "Ok" ? $(row).find('td:eq(16)').css('color', 'green') : $(row).find('td:eq(16)').css('color', 'red');
-						data['result_claim_event_stnc'] == "Ok" ? $(row).find('td:eq(19)').css('color', 'green') : $(row).find('td:eq(19)').css('color', 'red');
-						data['result_payment_date_submit_date_status'] == "Ok" ? $(row).find('td:eq(21)').css('color', 'green') : $(row).find('td:eq(21)').css('color', 'red');
-						data['result_check_claim_tre_share_cedant_vs_tre'] == "Ok" ? $(row).find('td:eq(28)').css('color', 'green') : $(row).find('td:eq(28)').css('color', 'red');
-						data['result_overall_clm_status'] == "Ok" ? $(row).find('td:eq(29)').css('color', 'green') : $(row).find('td:eq(29)').css('color', 'red');
+						data['result_birth_date'] == "Ok" ? $(row).find('td:eq(13)').css('color', 'green') : $(row).find('td:eq(13)').css('color', 'red');
+						data['result_efective_inception'] == "Ok" ? $(row).find('td:eq(16)').css('color', 'green') : $(row).find('td:eq(16)').css('color', 'red');
+						data['result_claim_submit_pl_sum_insd'] == "Ok" ? $(row).find('td:eq(19)').css('color', 'green') : $(row).find('td:eq(19)').css('color', 'red');
+						data['result_claim_event_stnc'] == "Ok" ? $(row).find('td:eq(22)').css('color', 'green') : $(row).find('td:eq(22)').css('color', 'red');
+						data['result_payment_date_submit_date_status'] == "Ok" ? $(row).find('td:eq(24)').css('color', 'green') : $(row).find('td:eq(24)').css('color', 'red');
+						data['result_check_claim_tre_share_cedant_vs_tre'] == "Ok" ? $(row).find('td:eq(31)').css('color', 'green') : $(row).find('td:eq(31)').css('color', 'red');
+						data['result_overall_clm_status'] == "Ok" ? $(row).find('td:eq(32)').css('color', 'green') : $(row).find('td:eq(32)').css('color', 'red');
+						*/
+
+						if( data['result_insd_name'] == "Ok" ) { $(row).find('td:eq(4)').css('color', 'green'); } 
+						else if ( data['result_insd_name'] == "Check" ){ $(row).find('td:eq(4)').css('color', 'yellow'); } 
+						else { $(row).find('td:eq(4)').css('color', 'red'); }
+
+						if( data['result_policy_no'] == "Ok" ) { $(row).find('td:eq(7)').css('color', 'green'); } 
+						else if ( data['result_policy_no'] == "Check" ){ $(row).find('td:eq(7)').css('color', 'yellow'); } 
+						else { $(row).find('td:eq(7)').css('color', 'red'); }
+
+						if( data['result_certificate_no'] == "Ok" ) { $(row).find('td:eq(10)').css('color', 'green'); } 
+						else if ( data['result_certificate_no'] == "Check" ){ $(row).find('td:eq(10)').css('color', 'yellow'); } 
+						else { $(row).find('td:eq(10)').css('color', 'red'); }
+
+						if( data['result_certificate_no'] == "Ok" ) { $(row).find('td:eq(13)').css('color', 'green'); } 
+						else if ( data['result_certificate_no'] == "Check" ){ $(row).find('td:eq(13)').css('color', 'yellow'); } 
+						else { $(row).find('td:eq(13)').css('color', 'red'); }
+
+						if( data['result_claim_submit_pl_sum_insd'] == "Ok" ) { $(row).find('td:eq(19)').css('color', 'green'); } 
+						else if ( data['result_claim_submit_pl_sum_insd'] == "Check" ){ $(row).find('td:eq(19)').css('color', 'yellow'); } 
+						else { $(row).find('td:eq(19)').css('color', 'red'); }
+
+						if( data['result_claim_submit_pl_sum_insd'] == "Ok" ) { $(row).find('td:eq(19)').css('color', 'green'); } 
+						else if ( data['result_claim_submit_pl_sum_insd'] == "Check" ){ $(row).find('td:eq(19)').css('color', 'yellow'); } 
+						else { $(row).find('td:eq(19)').css('color', 'red'); }
+
+						if( data['result_claim_event_stnc'] == "Ok" ) { $(row).find('td:eq(22)').css('color', 'green'); } 
+						else if ( data['result_claim_event_stnc'] == "Check" ){ $(row).find('td:eq(22)').css('color', 'yellow'); } 
+						else { $(row).find('td:eq(22)').css('color', 'red'); }
+
+						if( data['result_payment_date_submit_date_status'] == "Ok" ) { $(row).find('td:eq(24)').css('color', 'green'); } 
+						else if ( data['result_payment_date_submit_date_status'] == "Check" ){ $(row).find('td:eq(24)').css('color', 'yellow'); } 
+						else { $(row).find('td:eq(24)').css('color', 'red'); }
+
+						if( data['result_check_claim_tre_share_cedant_vs_tre'] == "Ok" ) { $(row).find('td:eq(31)').css('color', 'green'); } 
+						else if ( data['result_check_claim_tre_share_cedant_vs_tre'] == "Check" ){ $(row).find('td:eq(31)').css('color', 'yellow'); } 
+						else { $(row).find('td:eq(31)').css('color', 'red'); }
+
+						if( data['result_overall_clm_status'] == "Ok" ) { $(row).find('td:eq(32)').css('color', 'green'); } 
+						else if ( data['result_overall_clm_status'] == "Check" ){ $(row).find('td:eq(32)').css('color', 'yellow'); } 
+						else { $(row).find('td:eq(32)').css('color', 'red'); }
 						
 					},
-					// "columnDefs": [
-					// 	{
-					// 		"targets": [ 2 ],
-					// 		"visible": false,
-					// 		"searchable": false
-					// 	},
-					// ],
+					
 					orderable: false,
 					columnDefs: [
 						{
@@ -1130,6 +1302,10 @@ if(!strlen(trim($_SESSION['username']))) {
 								path_file.push(value.path_file); 
 								validasi_date.push(value.validasi_date); 
 					});
+
+					console.log('id=', id);
+					console.log('claim_insd_name=', claim_insd_name);
+
 					
 					var formdata = new FormData();
 					formdata.append("kode", "generate_settle");
@@ -1176,26 +1352,33 @@ if(!strlen(trim($_SESSION['username']))) {
 							processData: false,
 					success: function(result) {    
 							$("#wait").hide();   
-							console.log(' result= ', result ); 
+							console.log(' result insert data settle= ', result ); 
 							if(result){
 								Swal.fire("Data Settle berhasil dibuat",'','success')			 
 							}else{
 								Swal.fire("Data Settle gagal dibuat",'','danger')			 
 							}
-							$('#tbl_settle').DataTable().ajax.reload();						
+							// $('#tbl_settle').DataTable().ajax.reload();						
+							// $('#table-data-insured').DataTable().ajax.reload(); 
 						}
-					});		
+						
+					});	
+					
 				} 
 				else {
 					Swal.fire("Data Validasi belum dipilih ",'','info')			 
 				}	
 				
 			}
+
+			
+			
 		});
+		
 					
 		});
 
-
+		
 
 		}
 	
@@ -1262,12 +1445,13 @@ if(!strlen(trim($_SESSION['username']))) {
                 },
                 pageLength: 10000,
                 'columns': [  
-							{ "data":"no" ,"title": "No.","width":"50%"},
+					
+							{ "data":"no"},
 							{ "data":"id" ,"title": "id","visible": false},
-							{ "data":"claim_insd_name","title": "Claim Insd Name","width":"100%"},
-							{ "data":"pl_insd_name","title": "PL Insd Name",},
-							{ "data":"result_insd_name", "title": "Insd Name",}, 
-							{ "data":"claim_policy_no", "title": "Claim Policy No",},
+							{ "data":"claim_insd_name"},
+							{ "data":"pl_insd_name"},
+							{ "data":"result_insd_name"},
+							{ "data":"claim_policy_no"},
 							{ "data":"pl_policy_no", "title": "PL Policy No",},
 							{ "data":"result_policy_no", "title": "Policy No",},
 							{ "data":"claim_certificate_no", "title": "Claim Certificate",},
@@ -1297,6 +1481,43 @@ if(!strlen(trim($_SESSION['username']))) {
 							{ "data":"path_file", "title": "path file",}, 
 							{ "data":"settle_date", "title": "tgl Settle",}
 							
+
+						/*
+							{ "data":"no" },
+							{ "data":"id" ,"visible": false},
+							{ "data":"claim_insd_name"},
+							{ "data":"pl_insd_name"},
+							{ "data":"result_insd_name"},
+							{ "data":"claim_policy_no"},
+							{ "data":"pl_policy_no"},
+							{ "data":"result_policy_no"},
+							{ "data":"claim_certificate_no"},
+							{ "data":"pl_certificate_no"},
+							{ "data":"result_certificate_no"},
+							{ "data":"claim_effective_date"},
+							{ "data":"pl_inception_date"},
+							{ "data":"result_efective_inception"},
+							{ "data":"claim_submit", render: $.fn.dataTable.render.number( ',', '.', 2 )},
+							{ "data":"pl_sum_insd", render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							{ "data":"result_claim_submit_pl_sum_insd"},
+							{ "data":"claim_event"},
+							{ "data":"stnc"},
+							{ "data":"result_claim_event_stnc"},
+							{ "data":"payment_date_submit_date_days"},
+							{ "data":"result_payment_date_submit_date_status"},
+							{ "data":"pl_cedant_ret"},
+							{ "data":"pl_tre",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							{ "data":"claim_paid_by_cedant",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							{ "data":"claim_paid_tre_share_calc_by_cedant",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							{ "data":"claim_paid_tre_share_calc_by_tre",render: $.fn.dataTable.render.number( ',', '.', 2 ) },  
+							{ "data":"check_claim_tre_share_cedant_vs_tre"},
+							{ "data":"result_check_claim_tre_share_cedant_vs_tre"},
+							{ "data":"result_overall_clm_status"},
+							{ "data":"remark"}, 			
+							{ "data":"file_name"}, 
+							{ "data":"path_file"}, 
+							{ "data":"settle_date"}
+					*/							
 					],
 					'rowCallback': function(row, data, index){
 						

@@ -15,6 +15,7 @@
 	    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 	    <link rel="stylesheet" href="dist/css/adminlte.min.css">
 	    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+      <link rel="icon" type="image/png" href="https://www.tugure.id/uploads/web_config/606be2e4b96f5_20210406112612-1.png"/>
 
 
 
@@ -31,7 +32,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" />
 
 		
-      <title>data_claim</title>
+      <title>Tugure WebClaim</title>
       <style>
         body {
         background: #007bff;
